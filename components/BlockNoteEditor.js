@@ -6,8 +6,7 @@ import { useState } from 'react';
 
 // Our <Editor> component we can reuse later
 export default function MyBlockNoteEditor({ ...props }) {
-    const { id, onChange = () => {} } = props;
-    const [markdown, setMarkdown] = useState('');
+    const { id, onChange = () => {}, propValue = '' } = props;
     // Creates a new editor instance.
     const editor = useBlockNote({
         theme: 'dark',
