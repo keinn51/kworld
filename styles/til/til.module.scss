@@ -1,0 +1,19 @@
+@import 'styles/commons/mixins';
+@import 'styles/commons/variables';
+
+#til {
+    @include set-display-start;
+    width: 100vw;
+    height: 100vh;
+    font-size: 20px;
+    & #left_container {
+        width: 30%;
+        height: 100%;
+        background-color: red;
+    }
+    & #right_container {
+        width: 70%;
+        height: 100%;
+        background-color: green;
+    }
+}

@@ -1,3 +1,5 @@
+import '@/styles/global/global.scss';
+
 // index.js
 export default function Home() {
     return (
