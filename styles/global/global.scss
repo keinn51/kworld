@@ -7,3 +7,10 @@
 body {
     margin: 0;
 }
+
+#til_main_text_editor {
+    height: 100%;
+    & > div {
+        height: 100%;
+    }
+}
