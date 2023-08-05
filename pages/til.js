@@ -64,6 +64,60 @@ const dummyFetchedData = [
         isBookMarked: false,
         note: '',
     },
+    {
+        id: 3,
+        title: '가격표를 확인 후 쓸어담아',
+        value: '<p>sdffsdokfs</p>',
+        date: new Date(),
+        category: '#report',
+        preview: '',
+        isLocked: false,
+        link: '',
+        tags: '',
+        status: 0,
+        createdAt: new Date(),
+        creator: 1,
+        updatedAt: new Date(),
+        updator: 1,
+        isBookMarked: false,
+        note: '',
+    },
+    {
+        id: 3,
+        title: '가격표를 확인 후 쓸어담아',
+        value: '<p>sdffsdokfs</p>',
+        date: new Date(),
+        category: '#report',
+        preview: '',
+        isLocked: false,
+        link: '',
+        tags: '',
+        status: 0,
+        createdAt: new Date(),
+        creator: 1,
+        updatedAt: new Date(),
+        updator: 1,
+        isBookMarked: false,
+        note: '',
+    },
+    {
+        id: 3,
+        title: '가격표를 확인 후 쓸어담아',
+        value: '<p>sdffsdokfs</p>',
+        date: new Date(),
+        category: '#report',
+        preview: '',
+        isLocked: false,
+        link: '',
+        tags: '',
+        status: 0,
+        createdAt: new Date(),
+        creator: 1,
+        updatedAt: new Date(),
+        updator: 1,
+        isBookMarked: false,
+        note: '',
+    },
 ];
 
 export default function Til() {
@@ -161,7 +215,22 @@ export default function Til() {
                                     <span>{_entry[0]}</span>
                                 </div>
                                 <div className={styles.value}>
-                                    <span>{_entry[1]}</span>
+                                    <EditableSpan
+                                        value={_entry[1]}
+                                        onChange={(e) => {
+                                            if (_entry[0])
+                                                setList((_list) => {
+                                                    _list[listIdx][_entry[0]] = e.target.value;
+                                                    return Object.assign([], _list);
+                                                });
+                                        }}
+                                        isBlocked={
+                                            ['createdAt', 'updatedAt', 'date'].find(
+                                                (_key) => _key === _entry[0],
+                                            ) !== undefined
+                                        }
+                                        style={{ fontSize: '15px' }}
+                                    />
                                 </div>
                             </div>
                         ));

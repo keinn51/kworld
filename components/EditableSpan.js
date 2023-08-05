@@ -7,17 +7,18 @@ export default function EditableSpan({
     onChange = () => {},
     onBlur = () => {},
     style = {},
+    isBlocked = false,
 }) {
     const [isEditting, setIsEditting] = useState(false);
 
     return (
         <div id={id} className={styles.EditableSpan}>
-            {isEditting === false && (
+            {(isEditting === false || isBlocked === true) && (
                 <span onDoubleClick={() => setIsEditting(true)} style={style}>
                     {value}
                 </span>
             )}
-            {isEditting === true && (
+            {isEditting === true && isBlocked === false && (
                 <input
                     value={value}
                     onChange={onChange}
@@ -28,6 +29,7 @@ export default function EditableSpan({
                     onKeyDown={(e) => {
                         if (e.code === 'Enter') setIsEditting(false);
                     }}
+                    placeholder="enter text"
                     style={style}
                 ></input>
             )}

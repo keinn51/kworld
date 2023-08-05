@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 // index.js
 export default function Home() {
     return (
@@ -25,9 +27,10 @@ export default function Home() {
                 <span>내가 공부하거나 재미로 만들어 본 것들</span>
             </div>
             <div>
-                <a>til</a>
-                <span>문득 떠오르는 생각, 오늘 배운 것, 메모장 등등의 역할</span>
-                <span>문득 떠오르는 생각, 오늘 배운 것, 메모장 등등의 역할</span>
+                <Link href={'/til'}>
+                    <span>til</span>
+                    <span>문득 떠오르는 생각, 오늘 배운 것, 메모장 등등의 역할</span>
+                </Link>
             </div>
         </div>
     );
