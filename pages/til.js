@@ -1,3 +1,4 @@
+import EditableSpan from '@/components/EditableSpan';
 import styles from '@/styles/til/til.module.scss';
 import { transHtmlToPureText } from '@/utils/functions/common';
 import { formatDateToYYYYMMDD } from '@/utils/functions/date';
@@ -81,7 +82,11 @@ export default function Til() {
     }, [list, listIdx]);
 
     useEffect(() => {
-        console.log(`%c ${`targetItemValueChangedToString`}🙏🏻`, 'color:red', targetItemValueChangedToString);
+        console.log(
+            `%c ${`targetItemValueChangedToString`}🙏🏻`,
+            'color:red',
+            targetItemValueChangedToString,
+        );
     }, [targetItemValueChangedToString]);
 
     useEffect(() => {
@@ -124,7 +129,16 @@ export default function Til() {
             <div id={styles.right_container}>
                 <div id={styles.infos}>
                     <div id={styles.title}>
-                        <span>{targetItemValueChangedToString.title}</span>
+                        <EditableSpan
+                            value={targetItemValueChangedToString.title}
+                            onChange={(e) => {
+                                setList((_list) => {
+                                    _list[listIdx].title = e.target.value;
+                                    return Object.assign([], _list);
+                                });
+                            }}
+                            style={{ fontSize: '18px', fontWeight: 600 }}
+                        />
                     </div>
                     {(() => {
                         const filteredKeys = [

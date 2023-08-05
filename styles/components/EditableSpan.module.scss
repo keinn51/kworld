@@ -1,0 +1,12 @@
+.EditableSpan {
+    width: 100%;
+    span {
+        border-bottom: 1px solid transparent;
+    }
+    input {
+        padding: 0;
+        outline: none;
+        border: none;
+        border-bottom: 1px solid lightgray;
+    }
+}
