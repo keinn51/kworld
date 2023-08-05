@@ -2,12 +2,15 @@
 @import 'styles/commons/variables';
 
 #home {
+    $background_color: #7692e5;
     $left_width_percentage: 5%;
     $right_width_percentage: 95%;
     $right_width_number: 0.95;
+    $basic_border: 1.5px solid black;
+
     display: flex;
     width: 100vw;
-    background-color: #7692e5;
+    background-color: $background_color;
 
     #left {
         width: $left_width_percentage;
@@ -35,6 +38,18 @@
         width: $right_width_percentage;
 
         #header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 30px;
+            height: 100px;
+            #welcome {
+                font-size: 35px;
+                font-weight: 600;
+            }
+            #description {
+                font-size: 20px;
+            }
         }
         #body {
             $itemHeight: (100vw) * ($right_width_number) / 3;
@@ -43,11 +58,13 @@
             grid-template-rows: repeat(3, $itemHeight);
 
             .card {
+                border: $basic_border;
+                box-sizing: border-box;
             }
         }
     }
 
     #left + #right {
-        border-left: 1.5px solid #232323;
+        border-left: $basic_border;
     }
 }

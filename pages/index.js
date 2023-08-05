@@ -33,7 +33,10 @@ export default function Home() {
                 </div>
             </div>
             <div id={styles.right}>
-                <div id={styles.header}></div>
+                <div id={styles.header}>
+                    <div id={styles.welcome}>Welcome To My World</div>
+                    <div id={styles.description}>the place to know who is the Kyung soo</div>
+                </div>
                 <div id={styles.body}>
                     <div className={styles.card}>
                         <a>resume</a>
