@@ -27,6 +27,7 @@ export default function Home() {
             <div>
                 <a>til</a>
                 <span>문득 떠오르는 생각, 오늘 배운 것, 메모장 등등의 역할</span>
+                <span>문득 떠오르는 생각, 오늘 배운 것, 메모장 등등의 역할</span>
             </div>
         </div>
     );
