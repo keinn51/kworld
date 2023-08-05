@@ -11,6 +11,33 @@
         height: 100%;
         background-color: $basic_white;
         #list {
+            .item {
+                border-radius: 4px;
+
+                &:hover {
+                    background-color: lightgrey;
+                }
+
+                #title {
+                    span {
+                        font-size: 18px;
+                    }
+                }
+                #date_content {
+                    span {
+                        font-size: 15px;
+                    }
+                    span + span {
+                        margin-left: 15px;
+                    }
+                }
+                #category {
+                    span {
+                        font-size: 14px;
+                    }
+                }
+            }
+
             .item + .item {
                 border-top: 1px solid grey;
             }
