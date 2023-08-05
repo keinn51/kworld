@@ -1,0 +1,53 @@
+@import 'styles/commons/mixins';
+@import 'styles/commons/variables';
+
+#home {
+    $left_width_percentage: 5%;
+    $right_width_percentage: 95%;
+    $right_width_number: 0.95;
+    display: flex;
+    width: 100vw;
+    background-color: #7692e5;
+
+    #left {
+        width: $left_width_percentage;
+
+        #navigation {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 80px;
+
+            .item_name {
+                @include set-display-center;
+                transform: rotate(90deg);
+                a {
+                    text-decoration: none;
+                    color: black;
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+
+    #right {
+        width: $right_width_percentage;
+
+        #header {
+        }
+        #body {
+            $itemHeight: (100vw) * ($right_width_number) / 3;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, $itemHeight);
+
+            .card {
+            }
+        }
+    }
+
+    #left + #right {
+        border-left: 1.5px solid #232323;
+    }
+}
