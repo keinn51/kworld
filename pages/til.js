@@ -2,7 +2,9 @@ import styles from '@/styles/til/til.module.scss';
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useState } from 'react';
 
-const MyBlockNoteEditor = dynamic(() => import('@/components/BlockNoteEditor'), { ssr: false });
+const QuillEditor = dynamic(() => import('@/components/BlockNoteEditor'), {
+    ssr: false,
+});
 
 const dummyListItem = [
     {
@@ -14,6 +16,7 @@ const dummyListItem = [
         preview: '',
         isLocked: false,
         link: '',
+        tags: '',
     },
     {
         id: 2,
@@ -24,20 +27,13 @@ const dummyListItem = [
         preview: '',
         isLocked: false,
         link: '',
+        tags: '',
     },
 ];
 
 export default function Til() {
     const [list, setList] = useState(dummyListItem);
     const [listIdx, setListIdx] = useState(0);
-    const [text, setText] = useState('442');
-
-    useEffect(() => {
-        setList((_list) => {
-            _list[listIdx].value = text;
-            return [..._list];
-        });
-    }, [listIdx, text]);
 
     return (
         <div id={styles.til}>
@@ -50,7 +46,6 @@ export default function Til() {
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setListIdx(i);
-                                setText(list[i].value);
                             }}
                         >
                             <p>{l?.title}</p>
@@ -60,13 +55,15 @@ export default function Til() {
                 </div>
             </div>
             <div id={styles.right_container}>
-                <MyBlockNoteEditor
-                    id="til_main_text_editor"
-                    propValue={text}
-                    onChange={(markdown) => {
-                        setText(markdown);
+                <QuillEditor
+                    id="til_main"
+                    value={list[listIdx].value}
+                    onChange={(content) => {
+                        setList((_list, _idx) => {
+                            _list[listIdx].value = content;
+                            return [..._list];
+                        });
                     }}
-                    onClose={() => {}}
                 />
             </div>
         </div>

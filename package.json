@@ -9,13 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@blocknote/core": "^0.8.5",
-    "@blocknote/react": "^0.8.5",
     "eslint": "^8.46.0",
     "eslint-config-next": "^13.4.12",
     "next": "13.4.12",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-quill": "^2.0.0",
     "sass": "^1.64.2"
   }
 }

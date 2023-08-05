@@ -1,16 +1,4 @@
-* {
-    box-sizing: border-box;
+body {
     padding: 0;
     margin: 0;
-}
-
-body {
-    margin: 0;
-}
-
-#til_main_text_editor {
-    height: 100%;
-    & > div {
-        height: 100%;
-    }
 }
