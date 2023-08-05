@@ -4,7 +4,7 @@ import { formatDateToYYYYMMDD } from '@/utils/functions/date';
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useState } from 'react';
 
-const QuillEditor = dynamic(() => import('@/components/BlockNoteEditor'), {
+const QuillEditor = dynamic(() => import('@/components/SnowQuillEditor'), {
     ssr: false,
 });
 
@@ -85,6 +85,7 @@ export default function Til() {
                     {list.map((l, i) => (
                         <div
                             className={styles.item}
+                            data-active={i === listIdx}
                             key={`til-list-${i}`}
                             onMouseDown={(e) => {
                                 e.stopPropagation();
