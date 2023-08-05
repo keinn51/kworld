@@ -49,7 +49,30 @@
         }
     }
     & #right_container {
+        height: 100vh;
         width: 70%;
-        height: 100%;
+        #infos {
+            padding: 4%;
+            #title {
+                font-family: 18px;
+                font-weight: 600;
+                margin-bottom: 10px;
+            }
+            .info {
+                @include set-display-start;
+
+                .key {
+                    width: 20%;
+                    span {
+                        font-size: 15px;
+                    }
+                }
+                .value {
+                    span {
+                        font-size: 15px;
+                    }
+                }
+            }
+        }
     }
 }

@@ -2,13 +2,13 @@ import styles from '@/styles/til/til.module.scss';
 import { transHtmlToPureText } from '@/utils/functions/common';
 import { formatDateToYYYYMMDD } from '@/utils/functions/date';
 import dynamic from 'next/dynamic';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const QuillEditor = dynamic(() => import('@/components/SnowQuillEditor'), {
     ssr: false,
 });
 
-const dummyListItem = [
+const dummyFetchedData = [
     {
         id: 1,
         title: '꽃 향기만 남기고 갔단다',
@@ -66,8 +66,23 @@ const dummyListItem = [
 ];
 
 export default function Til() {
-    const [list, setList] = useState(dummyListItem);
+    const [list, setList] = useState(dummyFetchedData);
     const [listIdx, setListIdx] = useState(0);
+    const targetItemValueChangedToString = useMemo(() => {
+        if (!list || !list[listIdx]) return [];
+        const newObject = Object.assign({}, list[listIdx]);
+        for (let key in newObject) {
+            const _value = newObject[key];
+
+            if (typeof _value === 'string') continue;
+            else if (_value instanceof Date) newObject[key] = formatDateToYYYYMMDD(newObject[key]);
+        }
+        return newObject;
+    }, [list, listIdx]);
+
+    useEffect(() => {
+        console.log(`%c ${`targetItemValueChangedToString`}🙏🏻`, 'color:red', targetItemValueChangedToString);
+    }, [targetItemValueChangedToString]);
 
     useEffect(() => {
         console.log(
@@ -97,7 +112,7 @@ export default function Til() {
                             </div>
                             <div id={styles.date_content}>
                                 <span>{formatDateToYYYYMMDD(l?.date)}</span>
-                                <span>{transHtmlToPureText(l?.value)?.slice(0, 10)}</span>
+                                <span dangerouslySetInnerHTML={{ __html: l?.value }}></span>
                             </div>
                             <div id={styles.category}>
                                 <span>{l?.category}</span>
@@ -107,14 +122,44 @@ export default function Til() {
                 </div>
             </div>
             <div id={styles.right_container}>
+                <div id={styles.infos}>
+                    <div id={styles.title}>
+                        <span>{targetItemValueChangedToString.title}</span>
+                    </div>
+                    {(() => {
+                        const filteredKeys = [
+                            'id',
+                            'title',
+                            'value',
+                            'preview',
+                            'isLocked',
+                            'creator',
+                            'updator',
+                            'isBookMarked',
+                        ];
+                        const _entries = Object.entries(targetItemValueChangedToString).filter(
+                            (_entry) => !filteredKeys.find((_key) => _key === _entry[0]),
+                        );
+
+                        return _entries.map((_entry, _i) => (
+                            <div className={styles.info} key={_entry[0] + _i}>
+                                <div className={styles.key}>
+                                    <span>{_entry[0]}</span>
+                                </div>
+                                <div className={styles.value}>
+                                    <span>{_entry[1]}</span>
+                                </div>
+                            </div>
+                        ));
+                    })()}
+                </div>
                 <QuillEditor
                     id="til_main"
                     value={list[listIdx].value}
                     onChange={(content) => {
-                        // debugger;
                         setList((_list, _idx) => {
                             _list[listIdx].value = content;
-                            return [..._list];
+                            return Object.assign([], _list);
                         });
                     }}
                 />

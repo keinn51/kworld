@@ -10,5 +10,15 @@ export function transHtmlToPureText(html) {
     // Remove the temporary div from the document (optional)
     tempDiv.remove();
 
-    return text;
+    return text || '';
 }
+
+export const getObjExcludingKeys = (myObj, keysToExclude) => {
+    if (!myObj || !keysToExclude) return {};
+    return Object.keys(myObj)
+        .filter((key) => !keysToExclude.includes(key))
+        .reduce((obj, key) => {
+            obj[key] = myObj[key];
+            return obj;
+        }, {});
+};
