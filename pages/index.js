@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styles from '@/styles/home/home.module.scss';
 import { useEffect, useMemo, useState } from 'react';
+import EditPannel from '@/components/EditPannel';
 
 const dummyFetchedData = [
     {
@@ -149,6 +150,8 @@ export default function Home() {
     const [aboutmeList, setAboutmeList] = useState([]);
     const growthTypes = ['STORE', 'TIL', 'TOY'];
     const aboutMeTypes = ['think', 'favorite'];
+    const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+    const [clickedItemInfo, setClickedItemInfo] = useState(null);
 
     const [growthTlList, setGrowthTlList] = useState(Object.entries(dataMirror));
     const [aboutmeTlList, setAboutmeTlList] = useState(Object.entries(dataMirror));
@@ -203,12 +206,24 @@ export default function Home() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {growthList.map((growthInfo) => {
+                                {growthList.map((growthInfo, listIdx) => {
                                     return (
                                         <tr key={`grow-info-${growthInfo.id}`}>
-                                            {growthTlList.map((tr) => {
+                                            {growthTlList.map((tr, tdIdx) => {
                                                 return (
-                                                    <td key={`table-head-${tr[1]}`}>
+                                                    <td
+                                                        key={`table-head-${tr[1]}`}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            if (tr[0] === 'title') {
+                                                                setClickedItemInfo({
+                                                                    index: listIdx,
+                                                                    type: 'grow',
+                                                                });
+                                                                setIsOpenEditModal(true);
+                                                            }
+                                                        }}
+                                                    >
                                                         {growthInfo[tr[0]] ?? ''}
                                                     </td>
                                                 );
@@ -267,6 +282,19 @@ export default function Home() {
                     </div>
                 </div>
             </div>
+            {isOpenEditModal && clickedItemInfo && (
+                <EditPannel
+                    list={clickedItemInfo.type === 'grow' ? growthList : aboutmeList}
+                    setList={clickedItemInfo.type === 'grow' ? setGrowthList : setAboutmeList}
+                    listIndex={clickedItemInfo.index}
+                    onClose={(info) => {
+                        // patch item
+                        // get items
+                        setClickedItemInfo(null);
+                        setIsOpenEditModal(false);
+                    }}
+                />
+            )}
         </div>
     );
 }

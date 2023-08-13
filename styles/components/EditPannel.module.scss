@@ -1,0 +1,39 @@
+@import 'styles/commons/mixins';
+@import 'styles/commons/variables';
+
+#til {
+    background-color: white;
+    box-shadow: 0px 0px 10px 1px #555555;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 50vw;
+    height: 100vh;
+    font-size: 20px;
+    margin: 0 auto;
+
+    & #right_container {
+        height: 100vh;
+        #infos {
+            padding: 4%;
+            #title {
+                margin-bottom: 10px;
+            }
+            .info {
+                @include set-display-start;
+
+                .key {
+                    width: 20%;
+                    span {
+                        font-size: 15px;
+                    }
+                }
+                .value {
+                    span {
+                        font-size: 15px;
+                    }
+                }
+            }
+        }
+    }
+}
