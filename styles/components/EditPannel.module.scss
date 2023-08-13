@@ -11,9 +11,9 @@
     height: 100vh;
     font-size: 20px;
     margin: 0 auto;
+    overflow-y: scroll;
 
     & #right_container {
-        height: 100vh;
         #infos {
             padding: 4%;
             #title {

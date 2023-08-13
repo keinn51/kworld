@@ -102,7 +102,7 @@ export default function EditPannel(props) {
                         value={list[listIndex].value}
                         onChange={(content) => {
                             setList((_list) => {
-                                _list[listIndex]['value'] = e.target.value;
+                                _list[listIndex]['value'] = content;
                                 return Object.assign([], _list);
                             });
                         }}
