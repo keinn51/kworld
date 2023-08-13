@@ -2,69 +2,43 @@
 @import 'styles/commons/variables';
 
 #home {
-    $background_color: #7692e5;
-    $left_width_percentage: 5%;
-    $right_width_percentage: 95%;
-    $right_width_number: 0.95;
-    $basic_border: 1.5px solid black;
+    width: 1024px;
+    margin: 0 auto;
+    #header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
-    display: flex;
-    width: 100vw;
-    background-color: $background_color;
-
-    #left {
-        width: $left_width_percentage;
-
-        #navigation {
-            margin-top: 50px;
-            display: flex;
-            flex-direction: column;
-            gap: 80px;
-
-            .item_name {
-                @include set-display-center;
-                transform: rotate(90deg);
-                a {
-                    text-decoration: none;
-                    color: black;
-                    font-size: 18px;
-                    font-weight: 700;
-                }
-            }
+        #welcome {
+            font-size: 35px;
+            font-weight: 600;
+        }
+        #description {
+            font-size: 20px;
         }
     }
-
-    #right {
-        width: $right_width_percentage;
-
-        #header {
+    #body {
+        .title {
+            font-size: 35px;
+            font-weight: 600;
+        }
+        .types {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 30px;
-            height: 100px;
-            #welcome {
-                font-size: 35px;
-                font-weight: 600;
+            gap: 10px;
+        }
+        .graph_handler {
+            display: flex;
+            gap: 20px;
+        }
+        #growth {
+            #desciption {
             }
-            #description {
-                font-size: 20px;
+            #types {
+            }
+            #graph {
             }
         }
-        #body {
-            $itemHeight: (100vw) * ($right_width_number) / 3;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, $itemHeight);
-
-            .card {
-                border: $basic_border;
-                box-sizing: border-box;
-            }
+        #aboutme {
         }
-    }
-
-    #left + #right {
-        border-left: $basic_border;
     }
 }

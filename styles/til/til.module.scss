@@ -4,9 +4,10 @@
 #til {
     display: flex;
     justify-content: flex-start;
-    width: 100vw;
+    width: 1000px;
     height: 100vh;
     font-size: 20px;
+    margin: 0 auto;
     & #left_container {
         width: 30%;
         background-color: $basic_white;
