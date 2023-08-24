@@ -152,6 +152,10 @@ export default function Home() {
     const aboutMeTypes = ['think', 'favorite'];
     const [isOpenEditModal, setIsOpenEditModal] = useState(false);
     const [clickedItemInfo, setClickedItemInfo] = useState(null);
+    const [openAddSortMenuModal, setOpenAddSortMenuModal] = useState(false);
+
+    const [sortMenus, setSortMenus] = useState([]);
+    const [filterMenus, setFilterMenus] = useState([]);
 
     const [growthTlList, setGrowthTlList] = useState(Object.entries(dataMirror));
     const [aboutmeTlList, setAboutmeTlList] = useState(Object.entries(dataMirror));
@@ -190,7 +194,26 @@ export default function Home() {
                     </div>
                     <div className={styles.graphHandler}>
                         <div className={styles.sort}>
-                            <span>sort</span>
+                            <div>
+                                <span>sort</span>
+                            </div>
+                            {sortMenus.map((_menu) => {
+                                return <div key={'sort menu' + _menu}>{_menu}</div>;
+                            })}
+                            <div
+                                onClick={() => {
+                                    setOpenAddSortMenuModal((old) => !old);
+                                }}
+                            >
+                                <span>+ 정렬 추가</span>
+                                {openAddSortMenuModal && (
+                                    <div className={styles.addMenuModal}>
+                                        <div>a</div>
+                                        <div>b</div>
+                                        <div>c</div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                         <div className={styles.filter}>
                             <span>filter</span>

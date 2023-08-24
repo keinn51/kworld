@@ -31,11 +31,17 @@
             gap: 20px;
         }
         #growth {
-            #desciption {
-            }
-            #types {
-            }
-            #graph {
+            .graphHandler {
+                .sort {
+                    display: flex;
+                    align-items: center;
+                    .addMenuModal {
+                        position: absolute;
+                        background-color: white;
+                        padding: 10px;
+                        width: 200px;
+                    }
+                }
             }
         }
         #aboutme {
