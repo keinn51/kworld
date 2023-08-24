@@ -153,6 +153,7 @@ export default function Home() {
     const [isOpenEditModal, setIsOpenEditModal] = useState(false);
     const [clickedItemInfo, setClickedItemInfo] = useState(null);
     const [openAddSortMenuModal, setOpenAddSortMenuModal] = useState(false);
+    const [openAddFilterMenuModal, setOpenAddFilterMenuModal] = useState(false);
 
     const [sortMenus, setSortMenus] = useState([]);
     const [filterMenus, setFilterMenus] = useState([]);
@@ -205,18 +206,39 @@ export default function Home() {
                                     setOpenAddSortMenuModal((old) => !old);
                                 }}
                             >
-                                <span>+ 정렬 추가</span>
-                                {openAddSortMenuModal && (
-                                    <div className={styles.addMenuModal}>
-                                        <div>a</div>
-                                        <div>b</div>
-                                        <div>c</div>
-                                    </div>
-                                )}
+                                <span className={styles.addButton}>+ 정렬 추가</span>
                             </div>
+                            {openAddSortMenuModal && (
+                                <div className={styles.addMenuModal}>
+                                    <div onClick={() => setOpenAddSortMenuModal(false)}>x</div>
+                                    <div className={styles.item}>제목</div>
+                                    <div className={styles.item}>날짜</div>
+                                    <div className={styles.item}>작성 날짜</div>
+                                </div>
+                            )}
                         </div>
                         <div className={styles.filter}>
-                            <span>filter</span>
+                            <div>
+                                <span>filter</span>
+                            </div>
+                            {filterMenus.map((_menu) => {
+                                return <div key={'filter menu' + _menu}>{_menu}</div>;
+                            })}
+                            <div
+                                onClick={() => {
+                                    setOpenAddFilterMenuModal((old) => !old);
+                                }}
+                            >
+                                <span className={styles.addButton}>+ 필터 추가</span>
+                            </div>
+                            {openAddFilterMenuModal && (
+                                <div className={styles.addMenuModal}>
+                                    <div onClick={() => setOpenAddFilterMenuModal(false)}>x</div>
+                                    <div className={styles.item}>제목</div>
+                                    <div className={styles.item}>날짜</div>
+                                    <div className={styles.item}>작성 날짜</div>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div className={styles.graphBox}>

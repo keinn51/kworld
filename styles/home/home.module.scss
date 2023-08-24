@@ -32,15 +32,27 @@
         }
         #growth {
             .graphHandler {
-                .sort {
+                .sort,
+                .filter {
                     display: flex;
                     align-items: center;
+
+                    .addButton {
+                        user-select: none;
+                    }
+
                     .addMenuModal {
                         position: absolute;
                         background-color: white;
                         padding: 10px;
                         width: 200px;
+                        .item {
+                            user-select: none;
+                            // pointer-events: none;
+                        }
                     }
+                }
+                .filter {
                 }
             }
         }
