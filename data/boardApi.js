@@ -52,3 +52,12 @@ export const postBoard = async (param) => {
         console.error(error);
     }
 };
+
+export const deleteBoardById = async (boardId) => {
+    try {
+        const response = await apiInstance.delete(`/board/${boardId}`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};

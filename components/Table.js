@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styles from '@/styles/home/home.module.scss';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import EditPannel from '@/components/EditPannel';
-import { getBoardList, postBoard } from '@/data/boardApi';
+import { deleteBoardById, getBoardList, postBoard } from '@/data/boardApi';
 
 const dataKeyAndValue = {
     title: '제목',
@@ -179,6 +179,7 @@ const Table = ({ tableType, dummyFetchedData }) => {
                     <table className={styles.table}>
                         <thead>
                             <tr>
+                                <td></td>
                                 {dataTableName.map((tr) => {
                                     return <td key={`table-head-${tr[1]}`}>{tr[1]}</td>;
                                 })}
@@ -188,26 +189,37 @@ const Table = ({ tableType, dummyFetchedData }) => {
                             {dataList.map((growthInfo, listIdx) => {
                                 // console.log(`growthInfo`, growthInfo);
                                 return (
-                                    <tr key={`grow-info-${growthInfo.id}`}>
-                                        {dataTableName.map((tr, tdIdx) => {
-                                            return (
-                                                <td
-                                                    key={`table-head-${tr[1]}`}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        if (tr[0] === 'title') {
-                                                            setClickedItemInfo({
-                                                                index: listIdx,
-                                                            });
-                                                            setIsOpenEditModal(true);
-                                                        }
-                                                    }}
-                                                >
-                                                    {growthInfo[tr[0]] ?? ''}
-                                                </td>
-                                            );
-                                        })}
-                                    </tr>
+                                    <>
+                                        <tr key={`grow-info-${growthInfo.id}`}>
+                                            <td
+                                                onClick={async () => {
+                                                    await deleteBoardById(growthInfo.id);
+                                                    const newData = await getBoardList();
+                                                    setDataListByTableType(newData);
+                                                }}
+                                            >
+                                                X
+                                            </td>
+                                            {dataTableName.map((tr, tdIdx) => {
+                                                return (
+                                                    <td
+                                                        key={`table-head-${tr[1]}`}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            if (tr[0] === 'title') {
+                                                                setClickedItemInfo({
+                                                                    index: listIdx,
+                                                                });
+                                                                setIsOpenEditModal(true);
+                                                            }
+                                                        }}
+                                                    >
+                                                        {growthInfo[tr[0]] ?? ''}
+                                                    </td>
+                                                );
+                                            })}
+                                        </tr>
+                                    </>
                                 );
                             })}
                         </tbody>

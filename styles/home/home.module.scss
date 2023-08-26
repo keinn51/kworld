@@ -59,6 +59,10 @@
             .graphBox {
                 .table {
                     width: 100%;
+                    .deleteButton {
+                        position: absolute;
+                        left: -20px;
+                    }
                 }
                 .addListButton {
                     background-color: lightgrey;
