@@ -30,7 +30,7 @@
             display: flex;
             gap: 20px;
         }
-        #growth {
+        #boardTable {
             .graphHandler {
                 .sort,
                 .filter {
@@ -55,8 +55,15 @@
                 .filter {
                 }
             }
-        }
-        #aboutme {
+
+            .graphBox {
+                .table {
+                    width: 100%;
+                }
+                .addListButton {
+                    background-color: lightgrey;
+                }
+            }
         }
     }
 }

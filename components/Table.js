@@ -46,8 +46,6 @@ const Table = ({ tableType, dummyFetchedData }) => {
 
     const [dataTableName, setdtn] = useState(Object.entries(dataKeyAndValue));
 
-    console.log(`selectedFilterMenus`, selectedFilterMenus);
-
     useEffect(() => {
         if (tableType === 'growth') {
             setDataList(
@@ -67,7 +65,7 @@ const Table = ({ tableType, dummyFetchedData }) => {
 
     return (
         <>
-            <div id={styles.growth}>
+            <div id={styles.boardTable}>
                 {tableType === 'growth' ? (
                     <div className={styles.title}>My Growth</div>
                 ) : (
@@ -167,7 +165,7 @@ const Table = ({ tableType, dummyFetchedData }) => {
                     </div>
                 </div>
                 <div className={styles.graphBox}>
-                    <table>
+                    <table className={styles.table}>
                         <thead>
                             <tr>
                                 {dataTableName.map((tr) => {
@@ -203,6 +201,9 @@ const Table = ({ tableType, dummyFetchedData }) => {
                             })}
                         </tbody>
                     </table>
+                    <div className={styles.addListButton} onClick={() => {}}>
+                        <span>+ 새로 만들기</span>
+                    </div>
                 </div>
             </div>
             {isOpenEditModal && clickedItemInfo && (
