@@ -29,35 +29,50 @@ const dropdownMenuDefault = {
     note: null,
 };
 
-const Table = ({ type, dummyFetchedData }) => {
-    const [dataList, setDataList] = useState([]);
-    const selectTypes = type === 'growth' ? ['STORE', 'TIL', 'TOY'] : ['think', 'favorite'];
+const Table = ({ tableType, dummyFetchedData }) => {
+    const selectTypes = tableType === 'growth' ? ['STORE', 'TIL', 'TOY'] : ['think', 'favorite'];
+    const [dataList, setDataList] = useState([]); //all data list
     const [isOpenEditModal, setIsOpenEditModal] = useState(false);
     const [clickedItemInfo, setClickedItemInfo] = useState(null);
     const [openAddSortMenuModal, setOpenAddSortMenuModal] = useState(false);
     const [openAddFilterMenuModal, setOpenAddFilterMenuModal] = useState(false);
 
-    const [selectedSortMenus, setSelectedSortMenus] = useState(dropdownMenuDefault);
-    const [selectedFilterMenus, setSelectedFilterMenus] = useState(dropdownMenuDefault);
+    const [selectedSortMenus, setSelectedSortMenus] = useState(
+        new Map(Object.entries(dropdownMenuDefault)),
+    );
+    const [selectedFilterMenus, setSelectedFilterMenus] = useState(
+        new Map(Object.entries(dropdownMenuDefault)),
+    );
 
-    const [growthTlList, setGrowthTlList] = useState(Object.entries(dataKeyAndValue));
-    const [aboutmeTlList, setAboutmeTlList] = useState(Object.entries(dataKeyAndValue));
+    const [dataTableName, setdtn] = useState(Object.entries(dataKeyAndValue));
+
+    console.log(`selectedFilterMenus`, selectedFilterMenus);
 
     useEffect(() => {
-        if (type === 'growth') {
+        if (tableType === 'growth') {
             setDataList(
                 dummyFetchedData.filter(
                     (_data) =>
                         _data.type === 'store' || _data.type === 'til' || _data.type === 'toy',
                 ),
             );
+        } else if (tableType === 'aboutme') {
+            setDataList(
+                dummyFetchedData.filter(
+                    (_data) => _data.type === 'think' || _data.type === 'favorite',
+                ),
+            );
         }
-    }, [dummyFetchedData, type]);
+    }, [dummyFetchedData, tableType]);
 
     return (
         <>
             <div id={styles.growth}>
-                <div className={styles.title}>My Growth</div>
+                {tableType === 'growth' ? (
+                    <div className={styles.title}>My Growth</div>
+                ) : (
+                    <div className={styles.title}>About Me</div>
+                )}
                 {/* <div className={styles.description}>나는 개발자로서 어떻게 성장하고 있는거니</div> */}
                 <div className={styles.types}>
                     {selectTypes.map((e, i) => {
@@ -73,8 +88,8 @@ const Table = ({ type, dummyFetchedData }) => {
                         <div>
                             <span>sort</span>
                         </div>
-                        {Object.keys(selectedSortMenus).map((_menu) => {
-                            if (selectedSortMenus[_menu] === null) return <></>;
+                        {Array.from(selectedSortMenus.keys()).map((_menu) => {
+                            if (selectedSortMenus.get(_menu) === null) return <></>;
                             return <div key={'sort menu' + _menu}>{dataKeyAndValue[_menu]}</div>;
                         })}
                         <div
@@ -95,12 +110,14 @@ const Table = ({ type, dummyFetchedData }) => {
                                         <div
                                             key={`sort-drowdown-menu-${_key}`}
                                             className={styles.item}
-                                            onClick={(e) =>
-                                                setSelectedSortMenus((old) => ({
-                                                    ...old,
-                                                    [_key]: true,
-                                                }))
-                                            }
+                                            onClick={(e) => {
+                                                setSelectedSortMenus((old) => {
+                                                    old.set(_key, true);
+                                                    return old;
+                                                });
+
+                                                // todo sort
+                                            }}
                                         >
                                             {_value}
                                         </div>
@@ -113,8 +130,8 @@ const Table = ({ type, dummyFetchedData }) => {
                         <div>
                             <span>filter</span>
                         </div>
-                        {Object.keys(selectedFilterMenus).map((_menu) => {
-                            if (selectedFilterMenus[_menu] === null) return <></>;
+                        {Array.from(selectedFilterMenus.keys()).map((_menu) => {
+                            if (selectedFilterMenus.get(_menu) === null) return <></>;
                             return <div key={'filter menu' + _menu}>{dataKeyAndValue[_menu]}</div>;
                         })}
                         <div
@@ -135,10 +152,10 @@ const Table = ({ type, dummyFetchedData }) => {
                                             key={`filter-dropdown-menu-${_key}`}
                                             className={styles.item}
                                             onClick={() => {
-                                                setSelectedFilterMenus((old) => ({
-                                                    ...old,
-                                                    [_key]: { isSelected: true, value: '' },
-                                                }));
+                                                setSelectedFilterMenus((old) => {
+                                                    old.set(_key, { isSelected: true, value: '' });
+                                                    return old;
+                                                });
                                             }}
                                         >
                                             {_value}
@@ -153,17 +170,17 @@ const Table = ({ type, dummyFetchedData }) => {
                     <table>
                         <thead>
                             <tr>
-                                {growthTlList.map((tr) => {
+                                {dataTableName.map((tr) => {
                                     return <td key={`table-head-${tr[1]}`}>{tr[1]}</td>;
                                 })}
                             </tr>
                         </thead>
                         <tbody>
                             {dataList.map((growthInfo, listIdx) => {
-                                console.log(`growthInfo`, growthInfo);
+                                // console.log(`growthInfo`, growthInfo);
                                 return (
                                     <tr key={`grow-info-${growthInfo.id}`}>
-                                        {growthTlList.map((tr, tdIdx) => {
+                                        {dataTableName.map((tr, tdIdx) => {
                                             return (
                                                 <td
                                                     key={`table-head-${tr[1]}`}
@@ -172,7 +189,6 @@ const Table = ({ type, dummyFetchedData }) => {
                                                         if (tr[0] === 'title') {
                                                             setClickedItemInfo({
                                                                 index: listIdx,
-                                                                type: 'grow',
                                                             });
                                                             setIsOpenEditModal(true);
                                                         }
@@ -191,8 +207,8 @@ const Table = ({ type, dummyFetchedData }) => {
             </div>
             {isOpenEditModal && clickedItemInfo && (
                 <EditPannel
-                    list={clickedItemInfo.type === 'grow' ? dataList : aboutmeList}
-                    setList={clickedItemInfo.type === 'grow' ? setDataList : setAboutmeList}
+                    list={dataList}
+                    setList={setDataList}
                     listIndex={clickedItemInfo.index}
                     onClose={(info) => {
                         // patch item

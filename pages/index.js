@@ -182,53 +182,8 @@ export default function Home() {
                 <div className={styles.description}>안녕하셔유 이경수여유</div>
             </div>
             <div id={styles.body}>
-                <Table type="growth" dummyFetchedData={dummyFetchedData} />
-                <div id={styles.aboutme}>
-                    <div className={styles.title}>About Me</div>
-                    <div className={styles.types}>
-                        {aboutMeTypes.map((e, i) => {
-                            return (
-                                <div key={`${e}-${i}`} className="">
-                                    <span>{e}</span>
-                                </div>
-                            );
-                        })}
-                    </div>
-                    <div className={styles.graphHandler}>
-                        <div className={styles.sort}>
-                            <span>sort</span>
-                        </div>
-                        <div className={styles.filter}>
-                            <span>filter</span>
-                        </div>
-                    </div>
-                    <div className={styles.graphBox}>
-                        <table>
-                            <thead>
-                                <tr>
-                                    {aboutmeTlList.map((tr) => {
-                                        return <td key={`table-head-${tr[1]}`}>{tr[1]}</td>;
-                                    })}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {aboutmeList.map((growthInfo) => {
-                                    return (
-                                        <tr key={`grow-info-${growthInfo.id}`}>
-                                            {aboutmeTlList.map((tr) => {
-                                                return (
-                                                    <td key={`table-head-${tr[1]}`}>
-                                                        {growthInfo[tr[0]] ?? ''}
-                                                    </td>
-                                                );
-                                            })}
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <Table tableType="growth" dummyFetchedData={dummyFetchedData} />
+                <Table tableType="aboutme" dummyFetchedData={dummyFetchedData} />
             </div>
             {isOpenEditModal && clickedItemInfo && (
                 <EditPannel
