@@ -2,6 +2,7 @@ import Link from 'next/link';
 import styles from '@/styles/home/home.module.scss';
 import { useEffect, useMemo, useState } from 'react';
 import EditPannel from '@/components/EditPannel';
+import Table from '@/components/Table';
 
 const dummyFetchedData = [
     {
@@ -131,7 +132,7 @@ const dummyFetchedData = [
     },
 ];
 
-const dataMirror = {
+const dataKeyAndValue = {
     title: '제목',
     date: '날짜',
     link: '링크',
@@ -144,6 +145,8 @@ const dataMirror = {
     note: '비고',
 };
 
+const sortMenu = { title: null, date: null, createdAt: null };
+
 // index.js
 export default function Home() {
     const [growthList, setGrowthList] = useState([]);
@@ -155,11 +158,11 @@ export default function Home() {
     const [openAddSortMenuModal, setOpenAddSortMenuModal] = useState(false);
     const [openAddFilterMenuModal, setOpenAddFilterMenuModal] = useState(false);
 
-    const [sortMenus, setSortMenus] = useState([]);
-    const [filterMenus, setFilterMenus] = useState([]);
+    const [growthSortMenus, setGrowthSortMenus] = useState(sortMenu);
+    const [growthFilterMenus, setGrowthFilterMenus] = useState(sortMenu);
 
-    const [growthTlList, setGrowthTlList] = useState(Object.entries(dataMirror));
-    const [aboutmeTlList, setAboutmeTlList] = useState(Object.entries(dataMirror));
+    const [growthTlList, setGrowthTlList] = useState(Object.entries(dataKeyAndValue));
+    const [aboutmeTlList, setAboutmeTlList] = useState(Object.entries(dataKeyAndValue));
 
     useEffect(() => {
         setGrowthList(
@@ -179,107 +182,7 @@ export default function Home() {
                 <div className={styles.description}>안녕하셔유 이경수여유</div>
             </div>
             <div id={styles.body}>
-                <div id={styles.growth}>
-                    <div className={styles.title}>My Growth</div>
-                    <div className={styles.description}>
-                        나는 개발자로서 어떻게 성장하고 있는거니
-                    </div>
-                    <div className={styles.types}>
-                        {growthTypes.map((e, i) => {
-                            return (
-                                <div key={`${e}-${i}`} className="">
-                                    <span>{e}</span>
-                                </div>
-                            );
-                        })}
-                    </div>
-                    <div className={styles.graphHandler}>
-                        <div className={styles.sort}>
-                            <div>
-                                <span>sort</span>
-                            </div>
-                            {sortMenus.map((_menu) => {
-                                return <div key={'sort menu' + _menu}>{_menu}</div>;
-                            })}
-                            <div
-                                onClick={() => {
-                                    setOpenAddSortMenuModal((old) => !old);
-                                }}
-                            >
-                                <span className={styles.addButton}>+ 정렬 추가</span>
-                            </div>
-                            {openAddSortMenuModal && (
-                                <div className={styles.addMenuModal}>
-                                    <div onClick={() => setOpenAddSortMenuModal(false)}>x</div>
-                                    <div className={styles.item}>제목</div>
-                                    <div className={styles.item}>날짜</div>
-                                    <div className={styles.item}>작성 날짜</div>
-                                </div>
-                            )}
-                        </div>
-                        <div className={styles.filter}>
-                            <div>
-                                <span>filter</span>
-                            </div>
-                            {filterMenus.map((_menu) => {
-                                return <div key={'filter menu' + _menu}>{_menu}</div>;
-                            })}
-                            <div
-                                onClick={() => {
-                                    setOpenAddFilterMenuModal((old) => !old);
-                                }}
-                            >
-                                <span className={styles.addButton}>+ 필터 추가</span>
-                            </div>
-                            {openAddFilterMenuModal && (
-                                <div className={styles.addMenuModal}>
-                                    <div onClick={() => setOpenAddFilterMenuModal(false)}>x</div>
-                                    <div className={styles.item}>제목</div>
-                                    <div className={styles.item}>날짜</div>
-                                    <div className={styles.item}>작성 날짜</div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                    <div className={styles.graphBox}>
-                        <table>
-                            <thead>
-                                <tr>
-                                    {growthTlList.map((tr) => {
-                                        return <td key={`table-head-${tr[1]}`}>{tr[1]}</td>;
-                                    })}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {growthList.map((growthInfo, listIdx) => {
-                                    return (
-                                        <tr key={`grow-info-${growthInfo.id}`}>
-                                            {growthTlList.map((tr, tdIdx) => {
-                                                return (
-                                                    <td
-                                                        key={`table-head-${tr[1]}`}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            if (tr[0] === 'title') {
-                                                                setClickedItemInfo({
-                                                                    index: listIdx,
-                                                                    type: 'grow',
-                                                                });
-                                                                setIsOpenEditModal(true);
-                                                            }
-                                                        }}
-                                                    >
-                                                        {growthInfo[tr[0]] ?? ''}
-                                                    </td>
-                                                );
-                                            })}
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <Table type="growth" dummyFetchedData={dummyFetchedData} />
                 <div id={styles.aboutme}>
                     <div className={styles.title}>About Me</div>
                     <div className={styles.types}>
