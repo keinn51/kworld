@@ -3,6 +3,7 @@ import styles from '@/styles/home/home.module.scss';
 import { useEffect, useMemo, useState } from 'react';
 import EditPannel from '@/components/EditPannel';
 import Table from '@/components/Table';
+import { getBoardList } from '@/data/boardApi';
 
 const dummyFetchedData = [
     {
@@ -132,47 +133,10 @@ const dummyFetchedData = [
     },
 ];
 
-const dataKeyAndValue = {
-    title: '제목',
-    date: '날짜',
-    link: '링크',
-    tags: '태그',
-    status: '상태',
-    createdAt: '작성 날짜',
-    creatorName: '작성자',
-    updatedAt: '갱신 날짜',
-    updatorName: '갱신자',
-    note: '비고',
-};
-
-const sortMenu = { title: null, date: null, createdAt: null };
-
 // index.js
 export default function Home() {
-    const [growthList, setGrowthList] = useState([]);
-    const [aboutmeList, setAboutmeList] = useState([]);
-    const growthTypes = ['STORE', 'TIL', 'TOY'];
-    const aboutMeTypes = ['think', 'favorite'];
-    const [isOpenEditModal, setIsOpenEditModal] = useState(false);
-    const [clickedItemInfo, setClickedItemInfo] = useState(null);
-    const [openAddSortMenuModal, setOpenAddSortMenuModal] = useState(false);
-    const [openAddFilterMenuModal, setOpenAddFilterMenuModal] = useState(false);
-
-    const [growthSortMenus, setGrowthSortMenus] = useState(sortMenu);
-    const [growthFilterMenus, setGrowthFilterMenus] = useState(sortMenu);
-
-    const [growthTlList, setGrowthTlList] = useState(Object.entries(dataKeyAndValue));
-    const [aboutmeTlList, setAboutmeTlList] = useState(Object.entries(dataKeyAndValue));
-
     useEffect(() => {
-        setGrowthList(
-            dummyFetchedData.filter(
-                (_data) => _data.type === 'store' || _data.type === 'til' || _data.type === 'toy',
-            ),
-        );
-        setAboutmeList(
-            dummyFetchedData.filter((_data) => _data.type === 'think' || _data.type === 'favorite'),
-        );
+        console.log(`getBoardList()`, getBoardList());
     }, []);
 
     return (
@@ -182,22 +146,9 @@ export default function Home() {
                 <div className={styles.description}>안녕하셔유 이경수여유</div>
             </div>
             <div id={styles.body}>
-                <Table tableType="growth" dummyFetchedData={dummyFetchedData} />
-                <Table tableType="aboutme" dummyFetchedData={dummyFetchedData} />
+                <Table tableType="growth" />
+                <Table tableType="aboutme" />
             </div>
-            {isOpenEditModal && clickedItemInfo && (
-                <EditPannel
-                    list={clickedItemInfo.type === 'grow' ? growthList : aboutmeList}
-                    setList={clickedItemInfo.type === 'grow' ? setGrowthList : setAboutmeList}
-                    listIndex={clickedItemInfo.index}
-                    onClose={(info) => {
-                        // patch item
-                        // get items
-                        setClickedItemInfo(null);
-                        setIsOpenEditModal(false);
-                    }}
-                />
-            )}
         </div>
     );
 }

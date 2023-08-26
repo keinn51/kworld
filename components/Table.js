@@ -2,6 +2,7 @@ import Link from 'next/link';
 import styles from '@/styles/home/home.module.scss';
 import { useEffect, useMemo, useState } from 'react';
 import EditPannel from '@/components/EditPannel';
+import { getBoardList } from '@/data/boardApi';
 
 const dataKeyAndValue = {
     title: '제목',
@@ -46,22 +47,26 @@ const Table = ({ tableType, dummyFetchedData }) => {
 
     const [dataTableName, setdtn] = useState(Object.entries(dataKeyAndValue));
 
+    const getDataListFromServer = async () => {
+        return await getBoardList();
+    };
+
     useEffect(() => {
-        if (tableType === 'growth') {
-            setDataList(
-                dummyFetchedData.filter(
-                    (_data) =>
-                        _data.type === 'store' || _data.type === 'til' || _data.type === 'toy',
-                ),
-            );
-        } else if (tableType === 'aboutme') {
-            setDataList(
-                dummyFetchedData.filter(
-                    (_data) => _data.type === 'think' || _data.type === 'favorite',
-                ),
-            );
-        }
-    }, [dummyFetchedData, tableType]);
+        getDataListFromServer().then((res) => {
+            if (tableType === 'growth') {
+                setDataList(
+                    res?.filter(
+                        (_data) =>
+                            _data.type === 'store' || _data.type === 'til' || _data.type === 'toy',
+                    ),
+                );
+            } else if (tableType === 'aboutme') {
+                setDataList(
+                    res?.filter((_data) => _data.type === 'think' || _data.type === 'favorite'),
+                );
+            }
+        });
+    }, [tableType]);
 
     return (
         <>
