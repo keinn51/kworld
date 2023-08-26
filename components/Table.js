@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import styles from '@/styles/home/home.module.scss';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import EditPannel from '@/components/EditPannel';
-import { getBoardList } from '@/data/boardApi';
+import { getBoardList, postBoard } from '@/data/boardApi';
 
 const dataKeyAndValue = {
     title: '제목',
@@ -30,6 +30,9 @@ const dropdownMenuDefault = {
     note: null,
 };
 
+const growthTypes = ['store', 'til', 'toy'];
+const aboutMeTypes = ['think', 'favorite'];
+
 const Table = ({ tableType, dummyFetchedData }) => {
     const selectTypes = tableType === 'growth' ? ['STORE', 'TIL', 'TOY'] : ['think', 'favorite'];
     const [dataList, setDataList] = useState([]); //all data list
@@ -47,26 +50,29 @@ const Table = ({ tableType, dummyFetchedData }) => {
 
     const [dataTableName, setdtn] = useState(Object.entries(dataKeyAndValue));
 
-    const getDataListFromServer = async () => {
-        return await getBoardList();
-    };
+    const setDataListByTableType = useCallback(
+        (newData) => {
+            switch (tableType) {
+                case 'growth': {
+                    setDataList(newData?.filter((_data) => growthTypes.includes(_data.type)) || []);
+                    break;
+                }
+                case 'aboutme': {
+                    setDataList(
+                        newData?.filter((_data) => aboutMeTypes.includes(_data.type)) || [],
+                    );
+                    break;
+                }
+            }
+        },
+        [tableType],
+    );
 
     useEffect(() => {
-        getDataListFromServer().then((res) => {
-            if (tableType === 'growth') {
-                setDataList(
-                    res?.filter(
-                        (_data) =>
-                            _data.type === 'store' || _data.type === 'til' || _data.type === 'toy',
-                    ),
-                );
-            } else if (tableType === 'aboutme') {
-                setDataList(
-                    res?.filter((_data) => _data.type === 'think' || _data.type === 'favorite'),
-                );
-            }
+        getBoardList().then((res) => {
+            setDataListByTableType(res);
         });
-    }, [tableType]);
+    }, [setDataListByTableType]);
 
     return (
         <>
@@ -206,7 +212,15 @@ const Table = ({ tableType, dummyFetchedData }) => {
                             })}
                         </tbody>
                     </table>
-                    <div className={styles.addListButton} onClick={() => {}}>
+                    <div
+                        className={styles.addListButton}
+                        onClick={async () => {
+                            const defaultType = tableType === 'growth' ? 'store' : 'think';
+                            await postBoard({ type: defaultType });
+                            const newData = await getBoardList();
+                            setDataListByTableType(newData);
+                        }}
+                    >
                         <span>+ 새로 만들기</span>
                     </div>
                 </div>
@@ -217,8 +231,6 @@ const Table = ({ tableType, dummyFetchedData }) => {
                     setList={setDataList}
                     listIndex={clickedItemInfo.index}
                     onClose={(info) => {
-                        // patch item
-                        // get items
                         setClickedItemInfo(null);
                         setIsOpenEditModal(false);
                     }}
