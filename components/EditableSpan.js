@@ -27,7 +27,10 @@ export default function EditableSpan({
                         onBlur(e);
                     }}
                     onKeyDown={(e) => {
-                        if (e.code === 'Enter') setIsEditting(false);
+                        if (e.code === 'Enter') {
+                            setIsEditting(false);
+                            onBlur(e);
+                        }
                     }}
                     placeholder="enter text"
                     style={style}

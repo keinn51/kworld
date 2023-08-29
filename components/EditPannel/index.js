@@ -13,6 +13,7 @@ const QuillEditor = dynamic(() => import('@/components/SnowQuillEditor'), {
 export default function EditPannel(props) {
     const { list, listIndex, setList, onClose } = props;
     const _target = useMemo(() => list[listIndex], [list, listIndex]);
+    const [title, setTitle] = useState(_target.title);
     const changedData = useRef(null);
 
     useEffect(() => {
@@ -22,6 +23,8 @@ export default function EditPannel(props) {
         color: black;padding: 8px 19px;border: 1px dashed;`,
             _target,
         );
+
+        setTitle(_target.title);
     }, [_target]);
 
     useEffect(() => {
@@ -53,14 +56,17 @@ export default function EditPannel(props) {
                     <div id={styles.infos}>
                         <div id={styles.title}>
                             <EditableSpan
-                                value={_target.title}
+                                value={title}
                                 onChange={(e) => {
+                                    setTitle(e.target.value);
+                                }}
+                                onBlur={(e) => {
                                     setList((_list) => {
                                         _list[listIndex]['title'] = e.target.value;
+                                        _list[listIndex] = Object.assign([], _list[listIndex]);
                                         return Object.assign([], _list);
                                     });
                                 }}
-                                onBlur={(e) => {}}
                                 style={{ fontSize: '18px', fontWeight: 600 }}
                             />
                         </div>
@@ -92,6 +98,10 @@ export default function EditPannel(props) {
                                                     setList((_list) => {
                                                         _list[listIndex][_entry[0]] =
                                                             e.target.value;
+                                                        _list[listIndex] = Object.assign(
+                                                            [],
+                                                            _list[listIndex],
+                                                        );
                                                         return Object.assign([], _list);
                                                     });
                                                 }
