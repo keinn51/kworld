@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from '@/styles/home/home.module.scss';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import EditPannel from '@/components/EditPannel';
 import { deleteBoardById, getBoardList, postBoard } from '@/data/boardApi';
 
@@ -33,7 +33,7 @@ const dropdownMenuDefault = {
 const growthTypes = ['store', 'til', 'toy'];
 const aboutMeTypes = ['think', 'favorite'];
 
-const Table = ({ tableType, dummyFetchedData }) => {
+const Table = ({ tableType }) => {
     const selectTypes = tableType === 'growth' ? ['STORE', 'TIL', 'TOY'] : ['think', 'favorite'];
     const [dataList, setDataList] = useState([]); //all data list
     const [isOpenEditModal, setIsOpenEditModal] = useState(false);
@@ -98,7 +98,8 @@ const Table = ({ tableType, dummyFetchedData }) => {
                             <span>sort</span>
                         </div>
                         {Array.from(selectedSortMenus.keys()).map((_menu) => {
-                            if (selectedSortMenus.get(_menu) === null) return <></>;
+                            if (selectedSortMenus.get(_menu) === null)
+                                return <Fragment key={'sort menu' + _menu} />;
                             return <div key={'sort menu' + _menu}>{dataKeyAndValue[_menu]}</div>;
                         })}
                         <div
@@ -140,7 +141,8 @@ const Table = ({ tableType, dummyFetchedData }) => {
                             <span>filter</span>
                         </div>
                         {Array.from(selectedFilterMenus.keys()).map((_menu) => {
-                            if (selectedFilterMenus.get(_menu) === null) return <></>;
+                            if (selectedFilterMenus.get(_menu) === null)
+                                return <Fragment key={'filter menu' + _menu} />;
                             return <div key={'filter menu' + _menu}>{dataKeyAndValue[_menu]}</div>;
                         })}
                         <div
@@ -187,39 +189,36 @@ const Table = ({ tableType, dummyFetchedData }) => {
                         </thead>
                         <tbody>
                             {dataList.map((growthInfo, listIdx) => {
-                                // console.log(`growthInfo`, growthInfo);
                                 return (
-                                    <>
-                                        <tr key={`grow-info-${growthInfo.id}`}>
-                                            <td
-                                                onClick={async () => {
-                                                    await deleteBoardById(growthInfo.id);
-                                                    const newData = await getBoardList();
-                                                    setDataListByTableType(newData);
-                                                }}
-                                            >
-                                                X
-                                            </td>
-                                            {dataTableName.map((tr, tdIdx) => {
-                                                return (
-                                                    <td
-                                                        key={`table-head-${tr[1]}`}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            if (tr[0] === 'title') {
-                                                                setClickedItemInfo({
-                                                                    index: listIdx,
-                                                                });
-                                                                setIsOpenEditModal(true);
-                                                            }
-                                                        }}
-                                                    >
-                                                        {growthInfo[tr[0]] ?? ''}
-                                                    </td>
-                                                );
-                                            })}
-                                        </tr>
-                                    </>
+                                    <tr key={`grow-info-${growthInfo.id}`}>
+                                        <td
+                                            onClick={async () => {
+                                                await deleteBoardById(growthInfo.id);
+                                                const newData = await getBoardList();
+                                                setDataListByTableType(newData);
+                                            }}
+                                        >
+                                            X
+                                        </td>
+                                        {dataTableName.map((tr, tdIdx) => {
+                                            return (
+                                                <td
+                                                    key={`table-head-${tr[1]}-${tdIdx}`}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        if (tr[0] === 'title') {
+                                                            setClickedItemInfo({
+                                                                index: listIdx,
+                                                            });
+                                                            setIsOpenEditModal(true);
+                                                        }
+                                                    }}
+                                                >
+                                                    {growthInfo[tr[0]] ?? ''}
+                                                </td>
+                                            );
+                                        })}
+                                    </tr>
                                 );
                             })}
                         </tbody>

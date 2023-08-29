@@ -1,9 +1,10 @@
 import EditableSpan from '@/components/EditableSpan';
+import { updateBoardById } from '@/data/boardApi';
 import styles from '@/styles/components/EditPannel.module.scss';
 // import { transHtmlToPureText } from '@/utils/functions/common';
 import { formatDateToYYYYMMDD } from '@/utils/functions/date';
 import dynamic from 'next/dynamic';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 const QuillEditor = dynamic(() => import('@/components/SnowQuillEditor'), {
     ssr: false,
@@ -11,15 +12,28 @@ const QuillEditor = dynamic(() => import('@/components/SnowQuillEditor'), {
 
 export default function EditPannel(props) {
     const { list, listIndex, setList, onClose } = props;
+    const _target = useMemo(() => list[listIndex], [list, listIndex]);
+    const changedData = useRef(null);
 
     useEffect(() => {
         console.log(
-            `%c 👋🏻 ${`list[listIndex] data`} 👋🏻`,
+            `%c 👋🏻 ${`_target data`} 👋🏻`,
             `font-size: 12px;font-family: monospace;background-color: #EAE4D1;display: inline-block;
         color: black;padding: 8px 19px;border: 1px dashed;`,
-            list[listIndex],
+            _target,
         );
-    }, [list[listIndex]]);
+    }, [_target]);
+
+    useEffect(() => {
+        changedData.current = { ..._target };
+    }, [_target]);
+
+    useEffect(() => {
+        return () => {
+            console.log(`%c ${`saved!`}🙏🏻`, 'color:orange; font-size:20px;', changedData.current);
+            if (changedData.current) updateBoardById(changedData.current.id, changedData.current);
+        };
+    }, []);
 
     return (
         <div
@@ -39,13 +53,14 @@ export default function EditPannel(props) {
                     <div id={styles.infos}>
                         <div id={styles.title}>
                             <EditableSpan
-                                value={list[listIndex].title}
+                                value={_target.title}
                                 onChange={(e) => {
                                     setList((_list) => {
                                         _list[listIndex]['title'] = e.target.value;
                                         return Object.assign([], _list);
                                     });
                                 }}
+                                onBlur={(e) => {}}
                                 style={{ fontSize: '18px', fontWeight: 600 }}
                             />
                         </div>
@@ -60,7 +75,7 @@ export default function EditPannel(props) {
                                 'updatorId',
                                 'isBookMarked',
                             ];
-                            const _entries = Object.entries(list[listIndex]).filter(
+                            const _entries = Object.entries(_target).filter(
                                 (_entry) => !filteredKeys.find((_key) => _key === _entry[0]),
                             );
 
@@ -99,7 +114,7 @@ export default function EditPannel(props) {
                     </div>
                     <QuillEditor
                         id="til_main"
-                        value={list[listIndex].value}
+                        value={_target.value}
                         onChange={(content) => {
                             setList((_list) => {
                                 _list[listIndex]['value'] = content;

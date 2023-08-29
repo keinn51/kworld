@@ -1,5 +1,31 @@
 import apiInstance from '@/data/apiInstance';
 
+export const postBoard = async (param) => {
+    const defaultParam = {
+        type: 'til',
+        title: 'dummy page',
+        value: '<p>write something~!</p>',
+        date: null,
+        category: '#study',
+        preview: 'its preview',
+        link: null,
+        tags: null,
+        status: 1,
+        creatorId: 1,
+        creatorName: 'ks',
+        updatorId: 1,
+        updatorName: 'ks',
+        note: null,
+    };
+
+    try {
+        const response = await apiInstance.post('/board', { ...defaultParam, ...param });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 export const getBoardList = async () => {
     try {
         const response = await apiInstance.get('/board');
@@ -27,26 +53,9 @@ export const getBoardByType = async (boardType) => {
     }
 };
 
-export const postBoard = async (param) => {
-    const defaultParam = {
-        type: 'til',
-        title: 'dummy page',
-        value: '<p>write something~!</p>',
-        date: null,
-        category: '#study',
-        preview: 'its preview',
-        link: null,
-        tags: null,
-        status: 1,
-        creatorId: 1,
-        creatorName: 'ks',
-        updatorId: 1,
-        updatorName: 'ks',
-        note: null,
-    };
-
+export const updateBoardById = async (boardId, props) => {
     try {
-        const response = await apiInstance.post('/board', { ...defaultParam, ...param });
+        const response = await apiInstance.put(`/board/${boardId}`, props);
         return response.data;
     } catch (error) {
         console.error(error);
