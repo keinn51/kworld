@@ -3,7 +3,12 @@ import ReactQuill, { Quill } from 'react-quill';
 import styles from '@/styles/components/QuillEditor.module.scss';
 import { useMemo, useRef } from 'react';
 
-export default function QuillEditor({ id = '', value = '', onChange = () => {} }) {
+export default function QuillEditor({
+    id = '',
+    value = '',
+    onChange = () => {},
+    onBlur = () => {},
+}) {
     const quillRef = useRef();
 
     const imageHandler = (e) => {
@@ -54,6 +59,9 @@ export default function QuillEditor({ id = '', value = '', onChange = () => {} }
             id={styles[id]}
             value={value}
             onChange={onChange}
+            onBlur={() => {
+                onBlur(value);
+            }}
             theme="snow"
             modules={modules}
         />

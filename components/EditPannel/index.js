@@ -5,6 +5,7 @@ import styles from '@/styles/components/EditPannel.module.scss';
 import { formatDateToYYYYMMDD } from '@/utils/functions/date';
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import PropertyBox from './PropertyBox';
 
 const QuillEditor = dynamic(() => import('@/components/SnowQuillEditor'), {
     ssr: false,
@@ -14,20 +15,17 @@ export default function EditPannel(props) {
     const { list, listIndex, setList, onClose } = props;
     const _target = useMemo(() => list[listIndex], [list, listIndex]);
     const [title, setTitle] = useState(_target.title);
+    const [tableContent, setTableContent] = useState(_target.value);
     const changedData = useRef(null);
 
     useEffect(() => {
-        console.log(
-            `%c 👋🏻 ${`_target data`} 👋🏻`,
-            `font-size: 12px;font-family: monospace;background-color: #EAE4D1;display: inline-block;
-        color: black;padding: 8px 19px;border: 1px dashed;`,
-            _target,
-        );
+        console.log(`target data`, _target);
 
         setTitle(_target.title);
     }, [_target]);
 
     useEffect(() => {
+        console.log(`changed current`, _target);
         changedData.current = { ..._target };
     }, [_target]);
 
@@ -63,7 +61,7 @@ export default function EditPannel(props) {
                                 onBlur={(e) => {
                                     setList((_list) => {
                                         _list[listIndex]['title'] = e.target.value;
-                                        _list[listIndex] = Object.assign([], _list[listIndex]);
+                                        _list[listIndex] = Object.assign({}, _list[listIndex]);
                                         return Object.assign([], _list);
                                     });
                                 }}
@@ -86,48 +84,28 @@ export default function EditPannel(props) {
                             );
 
                             return _entries.map((_entry, _i) => (
-                                <div className={styles.info} key={_entry[0] + _i}>
-                                    <div className={styles.key}>
-                                        <span>{_entry[0]}</span>
-                                    </div>
-                                    <div className={styles.value}>
-                                        <EditableSpan
-                                            value={_entry[1]}
-                                            onChange={(e) => {
-                                                if (_entry[0]) {
-                                                    setList((_list) => {
-                                                        _list[listIndex][_entry[0]] =
-                                                            e.target.value;
-                                                        _list[listIndex] = Object.assign(
-                                                            [],
-                                                            _list[listIndex],
-                                                        );
-                                                        return Object.assign([], _list);
-                                                    });
-                                                }
-                                            }}
-                                            isBlocked={
-                                                [
-                                                    'createdAt',
-                                                    'updatedAt',
-                                                    'date',
-                                                    'creatorName',
-                                                    'updatorName',
-                                                ].find((_key) => _key === _entry[0]) !== undefined
-                                            }
-                                            style={{ fontSize: '15px' }}
-                                        />
-                                    </div>
-                                </div>
+                                <PropertyBox
+                                    key={`property-box-${_entry[0]}-${_i}`}
+                                    propertyEntry={_entry}
+                                    list={list}
+                                    listIndex={listIndex}
+                                    setList={setList}
+                                />
                             ));
                         })()}
                     </div>
                     <QuillEditor
                         id="til_main"
-                        value={_target.value}
+                        value={tableContent}
                         onChange={(content) => {
+                            console.log(`%c ${`content`}🙏🏻`, 'color:red', content);
+                            setTableContent(content);
+                        }}
+                        onBlur={(content) => {
+                            console.log(`%c ${`blur`}🙏🏻`, 'color:red', content);
                             setList((_list) => {
                                 _list[listIndex]['value'] = content;
+                                _list[listIndex] = Object.assign({}, _list[listIndex]);
                                 return Object.assign([], _list);
                             });
                         }}

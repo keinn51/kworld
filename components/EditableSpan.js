@@ -14,7 +14,7 @@ export default function EditableSpan({
     return (
         <div id={id} className={styles.EditableSpan}>
             {(isEditting === false || isBlocked === true) && (
-                <span onDoubleClick={() => setIsEditting(true)} style={style}>
+                <span onClick={() => setIsEditting(true)} style={style}>
                     {value}
                 </span>
             )}
