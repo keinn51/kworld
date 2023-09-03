@@ -2,7 +2,6 @@ import EditableSpan from '@/components/EditableSpan';
 import { updateBoardById } from '@/data/boardApi';
 import styles from '@/styles/components/EditPannel.module.scss';
 // import { transHtmlToPureText } from '@/utils/functions/common';
-import { formatDateToYYYYMMDD } from '@/utils/functions/date';
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropertyBox from './PropertyBox';
