@@ -48,7 +48,14 @@ export default function EditPannel(props) {
             >
                 <div id={styles.container}>
                     <div id={styles.header}>
-                        <div id={styles.backButton}>{'<'}</div>
+                        <div
+                            id={styles.backButton}
+                            onClick={() => {
+                                onClose();
+                            }}
+                        >
+                            {'<'}
+                        </div>
                         <div id={styles.utilButtons}>
                             <button
                                 onClick={() => {
