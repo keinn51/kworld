@@ -13,9 +13,21 @@
     margin: 0 auto;
     overflow-y: scroll;
 
-    & #right_container {
+    & #container {
+        #header {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2% 4%;
+
+            #backButton {
+            }
+            #utilButtons {
+            }
+        }
         #infos {
-            padding: 4%;
+            padding: 0 4% 4% 4%;
             #title {
                 margin-bottom: 10px;
             }
@@ -33,6 +45,13 @@
                         font-size: 15px;
                     }
                 }
+            }
+        }
+        #publishedContent {
+            padding: 0 4%;
+            p {
+                margin: 0;
+                padding: 0;
             }
         }
     }

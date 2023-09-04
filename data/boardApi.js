@@ -54,6 +54,7 @@ export const getBoardByType = async (boardType) => {
 };
 
 export const updateBoardById = async (boardId, props) => {
+    console.log(`[UPDATE BOARD]`, boardId, props);
     try {
         const response = await boardApiInstance.put(`/board/${boardId}`, props);
         return response.data;
