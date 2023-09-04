@@ -3,6 +3,7 @@ import ReactQuill, { Quill } from 'react-quill';
 import styles from '@/styles/components/QuillEditor.module.scss';
 import { useMemo, useRef } from 'react';
 import axios from 'axios';
+import { postImage } from '@/data/imageApi';
 
 export default function QuillEditor({
     id = '',
@@ -30,9 +31,9 @@ export default function QuillEditor({
             formData.append('userfile', file); // formData는 키-밸류 구조
             // 백엔드 multer라우터에 이미지를 보낸다.
             try {
-                const result = await axios.post('http://localhost:3500/upload', formData);
-                console.log('성공 시, 백엔드가 보내주는 데이터', result.data.url);
-                const IMG_URL = result.data.url;
+                const result = await postImage(formData);
+                console.log('성공 시, 백엔드가 보내주는 데이터', result.url);
+                const IMG_URL = result.url;
                 const editor = quillRef.current.getEditor(); // 에디터 객체 가져오기
 
                 // 현재 에디터 커서 위치값을 가져온다

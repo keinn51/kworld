@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiInstance = axios.create({
+export const boardApiInstance = axios.create({
     baseURL: `${process.env.NEXT_PUBLIC_API_HOST}`,
     headers: {
         'Content-type': 'application/json',
@@ -10,4 +10,13 @@ const apiInstance = axios.create({
     // maxRedirects: 0,
 });
 
-export default apiInstance;
+export const ImageApiInstance = axios.create({
+    baseURL: `${process.env.NEXT_PUBLIC_FILE_SERVER_HOST}`,
+    headers: {},
+    params: {
+        project: 0,
+        folder: 'board',
+    },
+});
+
+export default boardApiInstance;

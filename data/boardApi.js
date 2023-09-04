@@ -1,4 +1,4 @@
-import apiInstance from '@/data/apiInstance';
+import { boardApiInstance } from '@/data/apiInstance';
 
 export const postBoard = async (param) => {
     const defaultParam = {
@@ -19,7 +19,7 @@ export const postBoard = async (param) => {
     };
 
     try {
-        const response = await apiInstance.post('/board', { ...defaultParam, ...param });
+        const response = await boardApiInstance.post('/board', { ...defaultParam, ...param });
         return response.data;
     } catch (error) {
         console.error(error);
@@ -28,7 +28,7 @@ export const postBoard = async (param) => {
 
 export const getBoardList = async () => {
     try {
-        const response = await apiInstance.get('/board');
+        const response = await boardApiInstance.get('/board');
         return response.data;
     } catch (error) {
         console.error(error);
@@ -37,7 +37,7 @@ export const getBoardList = async () => {
 
 export const getBoardById = async (boardId) => {
     try {
-        const response = await apiInstance.get(`/board/id/${boardId}`);
+        const response = await boardApiInstance.get(`/board/id/${boardId}`);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -46,7 +46,7 @@ export const getBoardById = async (boardId) => {
 
 export const getBoardByType = async (boardType) => {
     try {
-        const response = await apiInstance.get(`/board/type/${boardType}`);
+        const response = await boardApiInstance.get(`/board/type/${boardType}`);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -55,7 +55,7 @@ export const getBoardByType = async (boardType) => {
 
 export const updateBoardById = async (boardId, props) => {
     try {
-        const response = await apiInstance.put(`/board/${boardId}`, props);
+        const response = await boardApiInstance.put(`/board/${boardId}`, props);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -64,7 +64,7 @@ export const updateBoardById = async (boardId, props) => {
 
 export const deleteBoardById = async (boardId) => {
     try {
-        const response = await apiInstance.delete(`/board/${boardId}`);
+        const response = await boardApiInstance.delete(`/board/${boardId}`);
         return response.data;
     } catch (error) {
         console.error(error);
