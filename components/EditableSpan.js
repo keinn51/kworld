@@ -3,7 +3,7 @@ import styles from '@/styles/components/EditableSpan.module.scss';
 
 export default function EditableSpan({
     id = '',
-    value = '',
+    value = 'empty',
     onChange = () => {},
     onBlur = () => {},
     style = {},
@@ -15,12 +15,12 @@ export default function EditableSpan({
         <div id={id} className={styles.EditableSpan}>
             {(isEditting === false || isBlocked === true) && (
                 <span onClick={() => setIsEditting(true)} style={style}>
-                    {value}
+                    {value || 'empty'}
                 </span>
             )}
             {isEditting === true && isBlocked === false && (
                 <input
-                    value={value}
+                    value={value || ''}
                     onChange={onChange}
                     onBlur={(e) => {
                         setIsEditting(false);

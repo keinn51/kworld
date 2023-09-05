@@ -69,7 +69,7 @@ export default function EditPannel(props) {
                                     }
                                 }}
                             >
-                                {showMode === 'published' ? '수정하기' : '편집하기'}
+                                {showMode === 'published' ? '수정하기' : '내용보기'}
                             </button>
                         </div>
                     </div>
