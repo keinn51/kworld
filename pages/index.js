@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styles from '@/styles/home/home.module.scss';
 import { useEffect, useMemo, useState } from 'react';
 import EditPannel from '@/components/EditPannel';
-import Table from '@/components/Table';
+import TableSection from '@/components/TableSection';
 import { getBoardList } from '@/data/boardApi';
 
 // index.js
@@ -18,8 +18,8 @@ export default function Home() {
                 <div className={styles.description}>안녕하셔유 이경수여유</div>
             </div>
             <div id={styles.body}>
-                <Table tableType="growth" />
-                <Table tableType="aboutme" />
+                <TableSection tableType="growth" />
+                <TableSection tableType="aboutme" />
             </div>
         </div>
     );

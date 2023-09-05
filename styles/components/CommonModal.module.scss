@@ -1,0 +1,11 @@
+@import 'styles/commons/mixins';
+@import 'styles/commons/variables';
+
+.commonModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 500px;
+    background-color: white;
+}

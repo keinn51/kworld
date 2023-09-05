@@ -33,7 +33,7 @@ const dropdownMenuDefault = {
 const growthTypes = ['store', 'til', 'toy'];
 const aboutMeTypes = ['think', 'favorite'];
 
-const Table = ({ tableType }) => {
+const TableSection = ({ tableType }) => {
     const selectTypes = tableType === 'growth' ? ['STORE', 'TIL', 'TOY'] : ['think', 'favorite'];
     const [dataList, setDataList] = useState([]); //all data list
     const [isOpenEditModal, setIsOpenEditModal] = useState(false);
@@ -152,29 +152,6 @@ const Table = ({ tableType }) => {
                         >
                             <span className={styles.addButton}>+ 필터 추가</span>
                         </div>
-                        {openAddFilterMenuModal && (
-                            <div className={styles.addMenuModal}>
-                                <div onClick={() => setOpenAddFilterMenuModal(false)}>x</div>
-
-                                {Object.entries(dataKeyAndValue).map((_data) => {
-                                    const [_key, _value] = _data;
-                                    return (
-                                        <div
-                                            key={`filter-dropdown-menu-${_key}`}
-                                            className={styles.item}
-                                            onClick={() => {
-                                                setSelectedFilterMenus((old) => {
-                                                    old.set(_key, { isSelected: true, value: '' });
-                                                    return old;
-                                                });
-                                            }}
-                                        >
-                                            {_value}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        )}
                     </div>
                 </div>
                 <div className={styles.graphBox}>
@@ -247,8 +224,31 @@ const Table = ({ tableType }) => {
                     }}
                 />
             )}
+            {openAddFilterMenuModal && (
+                <div className={styles.addMenuModal}>
+                    <div onClick={() => setOpenAddFilterMenuModal(false)}>x</div>
+
+                    {Object.entries(dataKeyAndValue).map((_data) => {
+                        const [_key, _value] = _data;
+                        return (
+                            <div
+                                key={`filter-dropdown-menu-${_key}`}
+                                className={styles.item}
+                                onClick={() => {
+                                    setSelectedFilterMenus((old) => {
+                                        old.set(_key, { isSelected: true, value: '' });
+                                        return old;
+                                    });
+                                }}
+                            >
+                                {_value}
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
         </>
     );
 };
 
-export default Table;
+export default TableSection;

@@ -1,4 +1,4 @@
-import EditableSpan from '@/components/EditableSpan';
+import EditableSpan from '@/components/Utils/EditableSpan';
 import { updateBoardById } from '@/data/boardApi';
 import styles from '@/styles/components/EditPannel.module.scss';
 // import { transHtmlToPureText } from '@/utils/functions/common';
@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropertyBox from './PropertyBox';
 
-const QuillEditor = dynamic(() => import('@/components/SnowQuillEditor'), {
+const QuillEditor = dynamic(() => import('@/components/Utils/SnowQuillEditor'), {
     ssr: false,
 });
 

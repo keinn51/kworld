@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import EditableSpan from '@/components/EditableSpan';
+import EditableSpan from '@/components/Utils/EditableSpan';
 import styles from '@/styles/components/EditPannel.module.scss';
 
 const PropertyBox = ({ propertyEntry, setList, list, listIndex }) => {
