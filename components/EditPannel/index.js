@@ -59,6 +59,28 @@ export default function EditPannel(props) {
                         <div id={styles.utilButtons}>
                             <button
                                 onClick={() => {
+                                    setList((_list) => {
+                                        _list[listIndex]['isLocked'] = !_target['isLocked'];
+                                        _list[listIndex] = Object.assign({}, _list[listIndex]);
+                                        return Object.assign([], _list);
+                                    });
+                                }}
+                            >
+                                {_target.isLocked ? '🔓' : '🔒'}
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setList((_list) => {
+                                        _list[listIndex]['isBookMarked'] = !_target['isBookMarked'];
+                                        _list[listIndex] = Object.assign({}, _list[listIndex]);
+                                        return Object.assign([], _list);
+                                    });
+                                }}
+                            >
+                                {_target.isBookMarked ? '👋🏻' : '🔖'}
+                            </button>
+                            <button
+                                onClick={() => {
                                     switch (showMode) {
                                         case 'published':
                                             setShowMode('edittable');
