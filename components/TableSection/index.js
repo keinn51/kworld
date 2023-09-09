@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from '@/styles/home/home.module.scss';
-import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import EditPannel from '@/components/EditPannel';
 import { deleteBoardById, getBoardList, postBoard } from '@/data/boardApi';
 
@@ -41,14 +41,12 @@ const TableSection = ({ tableType }) => {
     const [openAddSortMenuModal, setOpenAddSortMenuModal] = useState(false);
     const [openAddFilterMenuModal, setOpenAddFilterMenuModal] = useState(false);
 
-    const [selectedSortMenus, setSelectedSortMenus] = useState(
-        new Map(Object.entries(dropdownMenuDefault)),
-    );
     const [selectedFilterMenus, setSelectedFilterMenus] = useState(
         new Map(Object.entries(dropdownMenuDefault)),
     );
 
     const [dataTableName, setdtn] = useState(Object.entries(dataKeyAndValue));
+    const nowSortStorage = useRef(new Map());
 
     const setDataListByTableType = useCallback(
         (newData) => {
@@ -68,6 +66,54 @@ const TableSection = ({ tableType }) => {
         [tableType],
     );
 
+    const sortDataByKeyValue = useCallback(
+        (_key, _value) => {
+            const _newList = [...dataList];
+
+            _newList.sort((a, b) => {
+                if (_value === 'ascend') {
+                    if (a[_key] > b[_key]) return 1;
+                    if (a[_key] < b[_key]) return -1;
+                    return 0;
+                }
+                if (_value === 'descend') {
+                    if (a[_key] > b[_key]) return -1;
+                    if (a[_key] < b[_key]) return 1;
+                    return 0;
+                }
+                return 0;
+            });
+
+            setDataList(_newList);
+        },
+        [dataList],
+    );
+
+    const sortDataByNowSorts = useCallback(() => {
+        const _newList = [...dataList];
+
+        if (!nowSortStorage.current) return;
+
+        nowSortStorage.current.forEach((_value, _key) => {
+            _newList.sort((a, b) => {
+                if (_value === 'ascend') {
+                    if (a[_key] > b[_key]) return 1;
+                    if (a[_key] < b[_key]) return -1;
+                    return 0;
+                }
+                if (_value === 'descend') {
+                    if (a[_key] > b[_key]) return -1;
+                    if (a[_key] < b[_key]) return 1;
+                    return 0;
+                }
+                return 0;
+            });
+        });
+
+        setDataList(_newList);
+    }, [dataList]);
+
+    // ? data list에서 type에 따라 data를 다르게 보여주기 위해서
     useEffect(() => {
         getBoardList().then((res) => {
             setDataListByTableType(res);
@@ -97,11 +143,14 @@ const TableSection = ({ tableType }) => {
                         <div>
                             <span>sort</span>
                         </div>
-                        {Array.from(selectedSortMenus.keys()).map((_menu) => {
-                            if (selectedSortMenus.get(_menu) === null)
-                                return <Fragment key={'sort menu' + _menu} />;
-                            return <div key={'sort menu' + _menu}>{dataKeyAndValue[_menu]}</div>;
-                        })}
+                        {nowSortStorage.current &&
+                            Array.from(nowSortStorage.current.keys()).map((_menu) => {
+                                if (nowSortStorage.current.get(_menu) === null)
+                                    return <Fragment key={'sort menu' + _menu} />;
+                                return (
+                                    <div key={'sort menu' + _menu}>{dataKeyAndValue[_menu]}</div>
+                                );
+                            })}
                         <div
                             onClick={() => {
                                 setOpenAddSortMenuModal((old) => !old);
@@ -121,12 +170,10 @@ const TableSection = ({ tableType }) => {
                                             key={`sort-drowdown-menu-${_key}`}
                                             className={styles.item}
                                             onClick={(e) => {
-                                                setSelectedSortMenus((old) => {
-                                                    old.set(_key, true);
-                                                    return old;
-                                                });
-
-                                                // todo sort
+                                                if (nowSortStorage.current) {
+                                                    nowSortStorage.current.set(_key, 'ascend');
+                                                }
+                                                sortDataByKeyValue(_key, 'ascend');
                                             }}
                                         >
                                             {_value}
