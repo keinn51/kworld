@@ -19,7 +19,7 @@ export default function QuillEditor({
         const input = document.createElement('input');
         // 속성 써주기
         input.setAttribute('type', 'file');
-        input.setAttribute('accept', 'image/*');
+        input.setAttribute('accept', 'image/*, video/*');
         input.click(); // 에디터 이미지버튼을 클릭하면 이 input이 클릭된다.
         // input이 클릭되면 파일 선택창이 나타난다.
 
@@ -53,7 +53,7 @@ export default function QuillEditor({
                     [{ header: [1, 2, 3, 4, 5, 6, false] }],
                     ['bold', 'italic', 'underline', 'strike'],
                     [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-                    ['image', 'link', 'code'],
+                    ['image', 'link', 'code', 'video'],
                 ],
                 handlers: {
                     image: imageHandler,

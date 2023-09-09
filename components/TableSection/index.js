@@ -47,6 +47,7 @@ const TableSection = ({ tableType }) => {
 
     const [dataTableName, setdtn] = useState(Object.entries(dataKeyAndValue));
     const nowSortStorage = useRef(new Map());
+    const nowFilterStorage = useRef(new Map());
 
     const setDataListByTableType = useCallback(
         (newData) => {
@@ -112,6 +113,21 @@ const TableSection = ({ tableType }) => {
 
         setDataList(_newList);
     }, [dataList]);
+
+    const filterDataByKeyValue = useCallback(
+        (_key, _value) => {
+            const _newList = [...dataList];
+
+            _newList.filter((_data) => {
+                if (_data[_key] === _value) return true;
+                if (typeof _data[_key] === 'string' && _data[_key].includes(_value)) return true;
+                return false;
+            });
+
+            setDataList(_newList);
+        },
+        [dataList],
+    );
 
     // ? data list에서 type에 따라 data를 다르게 보여주기 위해서
     useEffect(() => {
