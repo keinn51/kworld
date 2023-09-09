@@ -18,7 +18,7 @@ export default function Home() {
             <div id={styles.home}>
                 <div id={styles.header}>
                     <div id={styles.welcome}>Welcome To My World</div>
-                    <div className={styles.description}>안녕하셔유 이경수여유</div>
+                    <div id={styles.description}>개발자 이경수의 지식창고 입니다.</div>
                 </div>
                 <div id={styles.body}>
                     <TableSection tableType="growth" />

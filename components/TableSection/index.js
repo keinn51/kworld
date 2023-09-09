@@ -34,7 +34,10 @@ const growthTypes = ['store', 'til', 'toy'];
 const aboutMeTypes = ['think', 'favorite'];
 
 const TableSection = ({ tableType }) => {
-    const selectTypes = tableType === 'growth' ? ['STORE', 'TIL', 'TOY'] : ['think', 'favorite'];
+    const selectTypes = useMemo(
+        () => (tableType === 'growth' ? ['COMMON', 'TIL', 'TOY'] : ['THINK', 'FAVORITE']),
+        [tableType],
+    );
     const [dataList, setDataList] = useState([]); //all data list
     const [isOpenEditModal, setIsOpenEditModal] = useState(false);
     const [clickedItemInfo, setClickedItemInfo] = useState(null);
@@ -156,8 +159,8 @@ const TableSection = ({ tableType }) => {
                 </div>
                 <div className={styles.graphHandler}>
                     <div className={styles.sort}>
-                        <div>
-                            <span>sort</span>
+                        <div className={styles.key}>
+                            <span>정렬</span>
                         </div>
                         {nowSortStorage.current &&
                             Array.from(nowSortStorage.current.keys()).map((_menu) => {
@@ -168,11 +171,12 @@ const TableSection = ({ tableType }) => {
                                 );
                             })}
                         <div
+                            className={styles.addButton}
                             onClick={() => {
                                 setOpenAddSortMenuModal((old) => !old);
                             }}
                         >
-                            <span className={styles.addButton}>+ 정렬 추가</span>
+                            <span>+ 정렬 추가</span>
                         </div>
                         {openAddSortMenuModal && (
                             <div className={styles.addMenuModal}>
@@ -200,8 +204,8 @@ const TableSection = ({ tableType }) => {
                         )}
                     </div>
                     <div className={styles.filter}>
-                        <div>
-                            <span>filter</span>
+                        <div className={styles.key}>
+                            <span>필터</span>
                         </div>
                         {Array.from(selectedFilterMenus.keys()).map((_menu) => {
                             if (selectedFilterMenus.get(_menu) === null)
@@ -209,11 +213,12 @@ const TableSection = ({ tableType }) => {
                             return <div key={'filter menu' + _menu}>{dataKeyAndValue[_menu]}</div>;
                         })}
                         <div
+                            className={styles.addButton}
                             onClick={() => {
                                 setOpenAddFilterMenuModal((old) => !old);
                             }}
                         >
-                            <span className={styles.addButton}>+ 필터 추가</span>
+                            <span>+ 필터 추가</span>
                         </div>
                     </div>
                 </div>
