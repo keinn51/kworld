@@ -15,7 +15,7 @@ export default function EditPannel(props) {
     const _target = useMemo(() => list[listIndex], [list, listIndex]);
     const [title, setTitle] = useState(_target.title);
     const [tableContent, setTableContent] = useState(_target.value);
-    const [showMode, setShowMode] = useState('published'); // published, edittable
+    const [showMode, setShowMode] = useState('edittable'); // published, edittable
     const changedData = useRef(null);
 
     // _target이 바뀌면 ref도 바꾸어줌

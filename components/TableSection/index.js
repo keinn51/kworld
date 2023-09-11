@@ -3,6 +3,7 @@ import styles from '@/styles/home/home.module.scss';
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import EditPannel from '@/components/EditPannel';
 import { deleteBoardById, getBoardList, postBoard } from '@/data/boardApi';
+import CommonModal from '../Utils/CommonModal';
 
 const dataKeyAndValue = {
     title: '제목',
@@ -14,6 +15,17 @@ const dataKeyAndValue = {
     creatorName: '작성자',
     updatedAt: '갱신 날짜',
     updatorName: '갱신자',
+    note: '비고',
+};
+
+const dataTableHead = {
+    title: '제목',
+    type: '분류',
+    category: '카테고리',
+    tags: '태그',
+    status: '상태',
+    createdAt: '작성 날짜',
+    creatorName: '작성자',
     note: '비고',
 };
 
@@ -35,7 +47,7 @@ const aboutMeTypes = ['think', 'favorite'];
 
 const TableSection = ({ tableType }) => {
     const selectTypes = useMemo(
-        () => (tableType === 'growth' ? ['COMMON', 'TIL', 'TOY'] : ['THINK', 'FAVORITE']),
+        () => (tableType === 'growth' ? ['STUDY', 'TIL', 'TOY'] : ['THINK', 'FAVORITE']),
         [tableType],
     );
     const [dataList, setDataList] = useState([]); //all data list
@@ -48,7 +60,7 @@ const TableSection = ({ tableType }) => {
         new Map(Object.entries(dropdownMenuDefault)),
     );
 
-    const [dataTableName, setdtn] = useState(Object.entries(dataKeyAndValue));
+    const [dataTableName, setdtn] = useState(Object.entries(dataTableHead));
     const nowSortStorage = useRef(new Map());
     const nowFilterStorage = useRef(new Map());
 
@@ -293,7 +305,12 @@ const TableSection = ({ tableType }) => {
                 />
             )}
             {openAddFilterMenuModal && (
-                <div className={styles.addMenuModal}>
+                <CommonModal
+                    onClose={() => {
+                        setOpenAddFilterMenuModal(false);
+                    }}
+                    footerData={{ title: '저장하기', onClick: () => {} }}
+                >
                     <div onClick={() => setOpenAddFilterMenuModal(false)}>x</div>
 
                     {Object.entries(dataKeyAndValue).map((_data) => {
@@ -313,7 +330,7 @@ const TableSection = ({ tableType }) => {
                             </div>
                         );
                     })}
-                </div>
+                </CommonModal>
             )}
         </>
     );

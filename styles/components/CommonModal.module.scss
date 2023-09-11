@@ -3,9 +3,16 @@
 
 .commonModal {
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
     width: 300px;
     height: 500px;
     background-color: white;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 1px 4px 0px #0000004d;
+
+    .footer {
+        display: flex;
+        justify-content: flex-end;
+    }
 }
