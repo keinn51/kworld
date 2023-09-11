@@ -311,25 +311,32 @@ const TableSection = ({ tableType }) => {
                     }}
                     footerData={{ title: '저장하기', onClick: () => {} }}
                 >
-                    <div onClick={() => setOpenAddFilterMenuModal(false)}>x</div>
-
-                    {Object.entries(dataKeyAndValue).map((_data) => {
-                        const [_key, _value] = _data;
-                        return (
-                            <div
-                                key={`filter-dropdown-menu-${_key}`}
-                                className={styles.item}
-                                onClick={() => {
-                                    setSelectedFilterMenus((old) => {
-                                        old.set(_key, { isSelected: true, value: '' });
-                                        return old;
-                                    });
-                                }}
-                            >
-                                {_value}
-                            </div>
-                        );
-                    })}
+                    <div>
+                        {Object.entries(dataKeyAndValue).map((_data) => {
+                            const [_key, _value] = _data;
+                            return (
+                                <div className={styles.filterMenu} key={`filter-menus-${_key}`}>
+                                    <input type="checkbox"></input>
+                                    <div
+                                        className={styles.item}
+                                        onClick={() => {
+                                            setSelectedFilterMenus((old) => {
+                                                old.set(_key, { isSelected: true, value: '' });
+                                                return old;
+                                            });
+                                        }}
+                                    >
+                                        {_value}
+                                    </div>
+                                    <select>
+                                        <option>포함</option>
+                                        <option>미포함</option>
+                                    </select>
+                                    <input type="text" />
+                                </div>
+                            );
+                        })}
+                    </div>
                 </CommonModal>
             )}
         </>

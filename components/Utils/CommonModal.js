@@ -19,7 +19,15 @@ const CommonModal = (props) => {
                         e.stopPropagation();
                     }}
                 >
-                    <div className={styles.header}></div>
+                    <div className={styles.header}>
+                        <div
+                            onClick={() => {
+                                onClose();
+                            }}
+                        >
+                            x
+                        </div>
+                    </div>
                     <div className={styles.body}>{children}</div>
                     <div className={styles.footer}>
                         {footerData && (
