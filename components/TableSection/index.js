@@ -4,6 +4,7 @@ import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'rea
 import EditPannel from '@/components/EditPannel';
 import { deleteBoardById, getBoardList, postBoard } from '@/data/boardApi';
 import CommonModal from '../Utils/CommonModal';
+import CommonSelect from '../Utils/CommonSelect';
 
 const dataKeyAndValue = {
     title: '제목',
@@ -30,16 +31,16 @@ const dataTableHead = {
 };
 
 const dropdownMenuDefault = {
-    title: null,
-    date: null,
-    link: null,
-    tags: null,
-    status: null,
-    createdAt: null,
-    creatorName: null,
-    updatedAt: null,
-    updatorName: null,
-    note: null,
+    title: { isSelected: false, value: '', type: 'contain' },
+    date: { isSelected: false, value: '', type: 'contain' },
+    link: { isSelected: false, value: '', type: 'contain' },
+    tags: { isSelected: false, value: '', type: 'contain' },
+    status: { isSelected: false, value: '', type: 'contain' },
+    createdAt: { isSelected: false, value: '', type: 'contain' },
+    creatorName: { isSelected: false, value: '', type: 'contain' },
+    updatedAt: { isSelected: false, value: '', type: 'contain' },
+    updatorName: { isSelected: false, value: '', type: 'contain' },
+    note: { isSelected: false, value: '', type: 'contain' },
 };
 
 const growthTypes = ['store', 'til', 'toy'];
@@ -190,37 +191,13 @@ const TableSection = ({ tableType }) => {
                         >
                             <span>+ 정렬 추가</span>
                         </div>
-                        {openAddSortMenuModal && (
-                            <div className={styles.addMenuModal}>
-                                <div onClick={() => setOpenAddSortMenuModal(false)}>x</div>
-
-                                {Object.entries(dataKeyAndValue).map((_data) => {
-                                    const [_key, _value] = _data;
-
-                                    return (
-                                        <div
-                                            key={`sort-drowdown-menu-${_key}`}
-                                            className={styles.item}
-                                            onClick={(e) => {
-                                                if (nowSortStorage.current) {
-                                                    nowSortStorage.current.set(_key, 'ascend');
-                                                }
-                                                sortDataByKeyValue(_key, 'ascend');
-                                            }}
-                                        >
-                                            {_value}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        )}
                     </div>
                     <div className={styles.filter}>
                         <div className={styles.key}>
                             <span>필터</span>
                         </div>
                         {Array.from(selectedFilterMenus.keys()).map((_menu) => {
-                            if (selectedFilterMenus.get(_menu) === null)
+                            if (selectedFilterMenus.get(_menu).isSelected === false)
                                 return <Fragment key={'filter menu' + _menu} />;
                             return <div key={'filter menu' + _menu}>{dataKeyAndValue[_menu]}</div>;
                         })}
@@ -304,6 +281,35 @@ const TableSection = ({ tableType }) => {
                     }}
                 />
             )}
+            {openAddSortMenuModal && (
+                <CommonModal
+                    onClose={() => {
+                        setOpenAddSortMenuModal(false);
+                    }}
+                    footerData={{ title: '저장하기', onClick: () => {} }}
+                >
+                    <div>
+                        {Object.entries(dataKeyAndValue).map((_data) => {
+                            const [_key, _value] = _data;
+
+                            return (
+                                <div
+                                    key={`sort-drowdown-menu-${_key}`}
+                                    className={styles.item}
+                                    onClick={(e) => {
+                                        if (nowSortStorage.current) {
+                                            nowSortStorage.current.set(_key, 'ascend');
+                                        }
+                                        sortDataByKeyValue(_key, 'ascend');
+                                    }}
+                                >
+                                    {_value}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </CommonModal>
+            )}
             {openAddFilterMenuModal && (
                 <CommonModal
                     onClose={() => {
@@ -321,17 +327,44 @@ const TableSection = ({ tableType }) => {
                                         className={styles.item}
                                         onClick={() => {
                                             setSelectedFilterMenus((old) => {
-                                                old.set(_key, { isSelected: true, value: '' });
-                                                return old;
+                                                old.set(_key, {
+                                                    isSelected: true,
+                                                    value: '',
+                                                    type: 'contain',
+                                                });
+                                                return new Map(old);
                                             });
                                         }}
                                     >
                                         {_value}
                                     </div>
-                                    <select>
-                                        <option>포함</option>
-                                        <option>미포함</option>
-                                    </select>
+                                    <CommonSelect
+                                        value={selectedFilterMenus.get(_key)?.type || 'contain'}
+                                        options={[{ contain: '포함' }, { exclude: '제외' }]}
+                                        onChange={(e) => {
+                                            setSelectedFilterMenus((old) => {
+                                                console.log(e.target.value);
+                                                old.set(_key, {
+                                                    ...selectedFilterMenus.get(_key),
+                                                    type: e.target.value,
+                                                });
+                                                return new Map(old);
+                                            });
+                                        }}
+                                        sx={{
+                                            '&.MuiFormControl-root': {
+                                                width: '50px',
+                                                height: '30px',
+                                            },
+                                            '& .MuiInputBase-root': {
+                                                width: '50px',
+                                                height: '30px',
+                                            },
+                                            '& .MuiSelect-select': {
+                                                padding: 0,
+                                            },
+                                        }}
+                                    />
                                     <input type="text" />
                                 </div>
                             );
