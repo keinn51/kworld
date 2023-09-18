@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import styles from '@/styles/home/home.module.scss';
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import EditPannel from '@/components/EditPannel';
@@ -31,7 +30,20 @@ const dataTableHead = {
     note: '비고',
 };
 
-const dropdownMenuDefault = {
+const sortDropdownMenuDefault = {
+    title: { isSelected: false, key: false, order: 'ascend' },
+    date: { isSelected: false, key: false, order: 'ascend' },
+    link: { isSelected: false, key: false, order: 'ascend' },
+    tags: { isSelected: false, key: false, order: 'ascend' },
+    status: { isSelected: false, key: false, order: 'ascend' },
+    createdAt: { isSelected: false, key: false, order: 'ascend' },
+    creatorName: { isSelected: false, key: false, order: 'ascend' },
+    updatedAt: { isSelected: false, key: false, order: 'ascend' },
+    updatorName: { isSelected: false, key: false, order: 'ascend' },
+    note: { isSelected: false, key: false, order: 'ascend' },
+};
+
+const filterDropdownMenuDefault = {
     title: { isSelected: false, value: '', type: 'contain' },
     date: { isSelected: false, value: '', type: 'contain' },
     link: { isSelected: false, value: '', type: 'contain' },
@@ -58,13 +70,14 @@ const TableSection = ({ tableType }) => {
     const [openAddSortMenuModal, setOpenAddSortMenuModal] = useState(false);
     const [openAddFilterMenuModal, setOpenAddFilterMenuModal] = useState(false);
 
+    const [selectedSortMenus, setSelectedsortMenus] = useState(
+        new Map(Object.entries(sortDropdownMenuDefault)),
+    );
     const [selectedFilterMenus, setSelectedFilterMenus] = useState(
-        new Map(Object.entries(dropdownMenuDefault)),
+        new Map(Object.entries(filterDropdownMenuDefault)),
     );
 
     const [dataTableName, setdtn] = useState(Object.entries(dataTableHead));
-    const nowSortStorage = useRef(new Map());
-    const nowFilterStorage = useRef(new Map());
 
     const setDataListByTableType = useCallback(
         (newData) => {
@@ -82,68 +95,6 @@ const TableSection = ({ tableType }) => {
             }
         },
         [tableType],
-    );
-
-    const sortDataByKeyValue = useCallback(
-        (_key, _value) => {
-            const _newList = [...dataList];
-
-            _newList.sort((a, b) => {
-                if (_value === 'ascend') {
-                    if (a[_key] > b[_key]) return 1;
-                    if (a[_key] < b[_key]) return -1;
-                    return 0;
-                }
-                if (_value === 'descend') {
-                    if (a[_key] > b[_key]) return -1;
-                    if (a[_key] < b[_key]) return 1;
-                    return 0;
-                }
-                return 0;
-            });
-
-            setDataList(_newList);
-        },
-        [dataList],
-    );
-
-    const sortDataByNowSorts = useCallback(() => {
-        const _newList = [...dataList];
-
-        if (!nowSortStorage.current) return;
-
-        nowSortStorage.current.forEach((_value, _key) => {
-            _newList.sort((a, b) => {
-                if (_value === 'ascend') {
-                    if (a[_key] > b[_key]) return 1;
-                    if (a[_key] < b[_key]) return -1;
-                    return 0;
-                }
-                if (_value === 'descend') {
-                    if (a[_key] > b[_key]) return -1;
-                    if (a[_key] < b[_key]) return 1;
-                    return 0;
-                }
-                return 0;
-            });
-        });
-
-        setDataList(_newList);
-    }, [dataList]);
-
-    const filterDataByKeyValue = useCallback(
-        (_key, _value) => {
-            const _newList = [...dataList];
-
-            _newList.filter((_data) => {
-                if (_data[_key] === _value) return true;
-                if (typeof _data[_key] === 'string' && _data[_key].includes(_value)) return true;
-                return false;
-            });
-
-            setDataList(_newList);
-        },
-        [dataList],
     );
 
     // ? data list에서 type에 따라 data를 다르게 보여주기 위해서
@@ -176,9 +127,9 @@ const TableSection = ({ tableType }) => {
                         <div className={styles.key}>
                             <span>정렬</span>
                         </div>
-                        {nowSortStorage.current &&
-                            Array.from(nowSortStorage.current.keys()).map((_menu) => {
-                                if (nowSortStorage.current.get(_menu) === null)
+                        {selectedSortMenus &&
+                            Array.from(selectedSortMenus.keys()).map((_menu) => {
+                                if (selectedSortMenus.get(_menu).isSelected === false)
                                     return <Fragment key={'sort menu' + _menu} />;
                                 return (
                                     <div key={'sort menu' + _menu}>{dataKeyAndValue[_menu]}</div>
@@ -294,17 +245,45 @@ const TableSection = ({ tableType }) => {
                             const [_key, _value] = _data;
 
                             return (
-                                <div
-                                    key={`sort-drowdown-menu-${_key}`}
-                                    className={styles.item}
-                                    onClick={(e) => {
-                                        if (nowSortStorage.current) {
-                                            nowSortStorage.current.set(_key, 'ascend');
-                                        }
-                                        sortDataByKeyValue(_key, 'ascend');
-                                    }}
-                                >
-                                    {_value}
+                                <div key={`sort-drowdown-menu-${_key}`} className={styles.sortMenu}>
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedSortMenus.get(_key).isSelected === true}
+                                        onChange={(e) => {
+                                            if (e.target.checked === true) {
+                                                setSelectedsortMenus((old) => {
+                                                    old.set(_key, {
+                                                        ...selectedSortMenus.get(_key),
+                                                        isSelected: true,
+                                                    });
+                                                    return new Map(old);
+                                                });
+                                            } else {
+                                                setSelectedsortMenus((old) => {
+                                                    old.set(_key, {
+                                                        ...selectedSortMenus.get(_key),
+                                                        isSelected: false,
+                                                    });
+                                                    return new Map(old);
+                                                });
+                                            }
+                                        }}
+                                    />
+                                    <div className={styles.item}>{_value}</div>
+                                    <CommonSelect
+                                        value={selectedSortMenus.get(_key)?.order || 'ascend'}
+                                        options={[{ ascend: '오름차순' }, { descend: '내림차순' }]}
+                                        onChange={(e) => {
+                                            setSelectedsortMenus((old) => {
+                                                old.set(_key, {
+                                                    ...selectedSortMenus.get(_key),
+                                                    order: e.target.value,
+                                                });
+                                                return new Map(old);
+                                            });
+                                        }}
+                                        width="50px"
+                                    />
                                 </div>
                             );
                         })}
