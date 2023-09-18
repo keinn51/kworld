@@ -1,0 +1,12 @@
+@import 'styles/commons/mixins';
+@import 'styles/commons/variables';
+
+.textInput {
+    input {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+    }
+}

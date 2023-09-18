@@ -3,8 +3,9 @@ import styles from '@/styles/home/home.module.scss';
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import EditPannel from '@/components/EditPannel';
 import { deleteBoardById, getBoardList, postBoard } from '@/data/boardApi';
-import CommonModal from '../Utils/CommonModal';
-import CommonSelect from '../Utils/CommonSelect';
+import CommonModal from '../Utils/Common/Modal';
+import CommonSelect from '../Utils/Common/Select';
+import TextInput from '../Utils/Common/TextInput';
 
 const dataKeyAndValue = {
     title: '제목',
@@ -351,21 +352,9 @@ const TableSection = ({ tableType }) => {
                                                 return new Map(old);
                                             });
                                         }}
-                                        sx={{
-                                            '&.MuiFormControl-root': {
-                                                width: '50px',
-                                                height: '30px',
-                                            },
-                                            '& .MuiInputBase-root': {
-                                                width: '50px',
-                                                height: '30px',
-                                            },
-                                            '& .MuiSelect-select': {
-                                                padding: 0,
-                                            },
-                                        }}
+                                        width="50px"
                                     />
-                                    <input type="text" />
+                                    <TextInput />
                                 </div>
                             );
                         })}

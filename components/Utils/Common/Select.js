@@ -17,7 +17,7 @@ const CommonSelect = ({ ...props }) => {
     } = props;
 
     return (
-        <FormControl sx={sx} width={width} height={height}>
+        <StyledFormControl sx={sx} width={width} height={height}>
             <Select value={value} onChange={onChange}>
                 {options.map((option) => {
                     const [key] = Object.keys(option);
@@ -28,8 +28,23 @@ const CommonSelect = ({ ...props }) => {
                     );
                 })}
             </Select>
-        </FormControl>
+        </StyledFormControl>
     );
 };
+
+const StyledFormControl = styled(FormControl)(({ width, height }) => ({
+    '&': {
+        '&.MuiButtonBase-root': {
+            width,
+        },
+        '& .MuiInputBase-root': {
+            width,
+            height: '30px',
+        },
+        '& .MuiSelect-select': {
+            padding: 0,
+        },
+    },
+}));
 
 export default CommonSelect;
