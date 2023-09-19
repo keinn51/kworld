@@ -11,6 +11,7 @@ const dataKeyAndValue = {
     date: '날짜',
     link: '링크',
     tags: '태그',
+    type: '분류',
     status: '상태',
     createdAt: '작성 날짜',
     creatorName: '작성자',
@@ -35,6 +36,7 @@ const sortDropdownMenuDefault = {
     date: { isSelected: false, key: false, order: 'ascend' },
     link: { isSelected: false, key: false, order: 'ascend' },
     tags: { isSelected: false, key: false, order: 'ascend' },
+    type: { isSelected: false, key: false, order: 'ascend' },
     status: { isSelected: false, key: false, order: 'ascend' },
     createdAt: { isSelected: false, key: false, order: 'ascend' },
     creatorName: { isSelected: false, key: false, order: 'ascend' },
@@ -95,6 +97,41 @@ const TableSection = ({ tableType }) => {
             }
         },
         [tableType],
+    );
+
+    const sortDataByNowSorts = useCallback(
+        (sortMenus) => {
+            const _newList = [...dataList];
+            let isNothingSelected = true;
+
+            if (!sortMenus) return;
+
+            sortMenus.forEach((_value, _key) => {
+                if (_value.isSelected === true) {
+                    isNothingSelected = false;
+                    _newList.sort((a, b) => {
+                        if (_value.order === 'ascend') {
+                            if (a[_key] > b[_key]) return 1;
+                            if (a[_key] < b[_key]) return -1;
+                            return 0;
+                        }
+                        if (_value.order === 'descend') {
+                            if (a[_key] > b[_key]) return -1;
+                            if (a[_key] < b[_key]) return 1;
+                            return 0;
+                        }
+                        return 0;
+                    });
+                }
+            });
+
+            if (isNothingSelected === true) {
+                _newList.sort((a, b) => a['id'] - b['id']);
+            }
+
+            setDataList(_newList);
+        },
+        [dataList],
     );
 
     // ? data list에서 type에 따라 data를 다르게 보여주기 위해서
@@ -239,50 +276,48 @@ const TableSection = ({ tableType }) => {
                         setOpenAddSortMenuModal(false);
                     }}
                     footerData={{ title: '저장하기', onClick: () => {} }}
+                    propStyle={{ width: '250px' }}
                 >
                     <div>
                         {Object.entries(dataKeyAndValue).map((_data) => {
                             const [_key, _value] = _data;
-
                             return (
                                 <div key={`sort-drowdown-menu-${_key}`} className={styles.sortMenu}>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedSortMenus.get(_key).isSelected === true}
-                                        onChange={(e) => {
-                                            if (e.target.checked === true) {
-                                                setSelectedsortMenus((old) => {
-                                                    old.set(_key, {
-                                                        ...selectedSortMenus.get(_key),
-                                                        isSelected: true,
-                                                    });
-                                                    return new Map(old);
-                                                });
-                                            } else {
-                                                setSelectedsortMenus((old) => {
-                                                    old.set(_key, {
-                                                        ...selectedSortMenus.get(_key),
-                                                        isSelected: false,
-                                                    });
-                                                    return new Map(old);
-                                                });
+                                    <div className={styles.nameTag}>
+                                        <input
+                                            type="checkbox"
+                                            checked={
+                                                selectedSortMenus.get(_key).isSelected === true
                                             }
-                                        }}
-                                    />
-                                    <div className={styles.item}>{_value}</div>
+                                            onChange={(e) => {
+                                                const _newSortMenus = new Map(selectedSortMenus);
+
+                                                _newSortMenus.set(_key, {
+                                                    ..._newSortMenus.get(_key),
+                                                    isSelected: e.target.checked,
+                                                });
+
+                                                setSelectedsortMenus(_newSortMenus);
+                                                sortDataByNowSorts(_newSortMenus);
+                                            }}
+                                        />
+                                        <div className={styles.item}>{_value}</div>
+                                    </div>
                                     <CommonSelect
                                         value={selectedSortMenus.get(_key)?.order || 'ascend'}
                                         options={[{ ascend: '오름차순' }, { descend: '내림차순' }]}
                                         onChange={(e) => {
-                                            setSelectedsortMenus((old) => {
-                                                old.set(_key, {
-                                                    ...selectedSortMenus.get(_key),
-                                                    order: e.target.value,
-                                                });
-                                                return new Map(old);
+                                            const _newSortMenus = new Map(selectedSortMenus);
+
+                                            _newSortMenus.set(_key, {
+                                                ..._newSortMenus.get(_key),
+                                                order: e.target.value,
                                             });
+
+                                            selectedSortMenus(_newSortMenus);
+                                            sortDataByNowSorts(_newSortMenus);
                                         }}
-                                        width="50px"
+                                        width="100px"
                                     />
                                 </div>
                             );
@@ -302,21 +337,23 @@ const TableSection = ({ tableType }) => {
                             const [_key, _value] = _data;
                             return (
                                 <div className={styles.filterMenu} key={`filter-menus-${_key}`}>
-                                    <input type="checkbox"></input>
-                                    <div
-                                        className={styles.item}
-                                        onClick={() => {
-                                            setSelectedFilterMenus((old) => {
-                                                old.set(_key, {
-                                                    isSelected: true,
-                                                    value: '',
-                                                    type: 'contain',
+                                    <div className={styles.nameTag}>
+                                        <input type="checkbox"></input>
+                                        <div
+                                            className={styles.item}
+                                            onClick={() => {
+                                                setSelectedFilterMenus((old) => {
+                                                    old.set(_key, {
+                                                        isSelected: true,
+                                                        value: '',
+                                                        type: 'contain',
+                                                    });
+                                                    return new Map(old);
                                                 });
-                                                return new Map(old);
-                                            });
-                                        }}
-                                    >
-                                        {_value}
+                                            }}
+                                        >
+                                            {_value}
+                                        </div>
                                     </div>
                                     <CommonSelect
                                         value={selectedFilterMenus.get(_key)?.type || 'contain'}
@@ -331,7 +368,7 @@ const TableSection = ({ tableType }) => {
                                                 return new Map(old);
                                             });
                                         }}
-                                        width="50px"
+                                        width="80px"
                                     />
                                     <TextInput />
                                 </div>

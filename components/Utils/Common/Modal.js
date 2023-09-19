@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo, useCallback, useRef, Children } from 'react';
-import styles from '@/styles/components/CommonModal.module.scss';
+import styles from '@/styles/commons/commons.module.scss';
 
 const CommonModal = (props) => {
-    const { children, onClose = () => {}, footerData } = props;
+    const { children, onClose = () => {}, footerData, propStyle = {} } = props;
     const modalRef = useRef(null);
 
     return (
@@ -14,10 +14,11 @@ const CommonModal = (props) => {
                 }}
             >
                 <div
-                    className={styles.commonModal}
+                    className={styles.modal}
                     onClick={(e) => {
                         e.stopPropagation();
                     }}
+                    style={propStyle}
                 >
                     <div className={styles.header}>
                         <div

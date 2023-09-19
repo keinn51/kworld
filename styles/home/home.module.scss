@@ -113,6 +113,12 @@ $contetn_font_size: 15px;
         .filterMenu,
         .sortMenu {
             display: flex;
+            justify-content: space-between;
+
+            .nameTag {
+                display: flex;
+                gap: 10px;
+            }
         }
     }
 }
