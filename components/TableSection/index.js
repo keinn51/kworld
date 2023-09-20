@@ -50,7 +50,7 @@ const filterDropdownMenuDefault = {
     date: { isSelected: false, value: '', type: 'contain' },
     link: { isSelected: false, value: '', type: 'contain' },
     tags: { isSelected: false, value: '', type: 'contain' },
-    status: { isSelected: false, value: '', type: 'contain' },
+    status: { isSelected: false, value: 1, type: 'contain' },
     createdAt: { isSelected: false, value: '', type: 'contain' },
     creatorName: { isSelected: false, value: '', type: 'contain' },
     updatedAt: { isSelected: false, value: '', type: 'contain' },
@@ -81,18 +81,14 @@ const TableSection = ({ tableType }) => {
 
     const [dataTableName, setdtn] = useState(Object.entries(dataTableHead));
 
-    const setDataListByTableType = useCallback(
+    const getDataListByTableType = useCallback(
         (newData) => {
             switch (tableType) {
                 case 'growth': {
-                    setDataList(newData?.filter((_data) => growthTypes.includes(_data.type)) || []);
-                    break;
+                    return newData?.filter((_data) => growthTypes.includes(_data.type)) || [];
                 }
                 case 'aboutme': {
-                    setDataList(
-                        newData?.filter((_data) => aboutMeTypes.includes(_data.type)) || [],
-                    );
-                    break;
+                    return newData?.filter((_data) => aboutMeTypes.includes(_data.type)) || [];
                 }
             }
         },
@@ -134,12 +130,47 @@ const TableSection = ({ tableType }) => {
         [dataList],
     );
 
+    const filterDataNowFilters = useCallback(
+        async (_filterMenus) => {
+            //isSelected value type
+            const originalDataList = getDataListByTableType(await getBoardList());
+            let _newList = [...originalDataList];
+            let isNothingSelected = true;
+
+            _filterMenus.forEach((_value, _key) => {
+                if (_value.isSelected === false) return;
+                isNothingSelected = false;
+                // string, num 일 때를 나누어야 함
+                if (_value.type === 'contain') {
+                    _newList = _newList.filter((v) => {
+                        if (
+                            typeof v[_key] === 'string' &&
+                            v[_key]?.includes?.(_value.value) === true
+                        )
+                            return true;
+                        if (typeof v[_key] === 'number' && v[_key] === Number(_value.value))
+                            return true;
+                        return false;
+                    });
+                }
+                if (_value.type === 'exclude') {
+                    _newList = _newList.filter((v) => v[_key]?.includes?.(_value.value) === false);
+                }
+            });
+
+            if (isNothingSelected === true) {
+                setDataList(originalDataList);
+            } else setDataList(_newList);
+        },
+        [getDataListByTableType],
+    );
+
     // ? data list에서 type에 따라 data를 다르게 보여주기 위해서
     useEffect(() => {
         getBoardList().then((res) => {
-            setDataListByTableType(res);
+            setDataList(getDataListByTableType(res));
         });
-    }, [setDataListByTableType]);
+    }, [getDataListByTableType]);
 
     return (
         <>
@@ -218,7 +249,7 @@ const TableSection = ({ tableType }) => {
                                             onClick={async () => {
                                                 await deleteBoardById(growthInfo.id);
                                                 const newData = await getBoardList();
-                                                setDataListByTableType(newData);
+                                                setDataList(getDataListByTableType(newData));
                                             }}
                                         >
                                             X
@@ -252,7 +283,7 @@ const TableSection = ({ tableType }) => {
                             const defaultType = tableType === 'growth' ? 'store' : 'think';
                             await postBoard({ type: defaultType });
                             const newData = await getBoardList();
-                            setDataListByTableType(newData);
+                            setDataList(getDataListByTableType(newData));
                         }}
                     >
                         <span>+ 새로 만들기</span>
@@ -275,7 +306,6 @@ const TableSection = ({ tableType }) => {
                     onClose={() => {
                         setOpenAddSortMenuModal(false);
                     }}
-                    footerData={{ title: '저장하기', onClick: () => {} }}
                     propStyle={{ width: '250px' }}
                 >
                     <div>
@@ -314,7 +344,7 @@ const TableSection = ({ tableType }) => {
                                                 order: e.target.value,
                                             });
 
-                                            selectedSortMenus(_newSortMenus);
+                                            setSelectedsortMenus(_newSortMenus);
                                             sortDataByNowSorts(_newSortMenus);
                                         }}
                                         width="100px"
@@ -330,7 +360,6 @@ const TableSection = ({ tableType }) => {
                     onClose={() => {
                         setOpenAddFilterMenuModal(false);
                     }}
-                    footerData={{ title: '저장하기', onClick: () => {} }}
                 >
                     <div>
                         {Object.entries(dataKeyAndValue).map((_data) => {
@@ -338,39 +367,61 @@ const TableSection = ({ tableType }) => {
                             return (
                                 <div className={styles.filterMenu} key={`filter-menus-${_key}`}>
                                     <div className={styles.nameTag}>
-                                        <input type="checkbox"></input>
-                                        <div
-                                            className={styles.item}
-                                            onClick={() => {
-                                                setSelectedFilterMenus((old) => {
-                                                    old.set(_key, {
-                                                        isSelected: true,
-                                                        value: '',
-                                                        type: 'contain',
-                                                    });
-                                                    return new Map(old);
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedFilterMenus.get(_key)?.isSelected}
+                                            onChange={(e) => {
+                                                const _newFilterMenus = new Map(
+                                                    selectedFilterMenus,
+                                                );
+
+                                                _newFilterMenus.set(_key, {
+                                                    ..._newFilterMenus.get(_key),
+                                                    isSelected: e.target.checked,
                                                 });
+
+                                                setSelectedFilterMenus(_newFilterMenus);
+                                                filterDataNowFilters(_newFilterMenus);
                                             }}
-                                        >
-                                            {_value}
-                                        </div>
+                                        />
+                                        <div className={styles.item}>{_value}</div>
                                     </div>
-                                    <CommonSelect
-                                        value={selectedFilterMenus.get(_key)?.type || 'contain'}
-                                        options={[{ contain: '포함' }, { exclude: '제외' }]}
-                                        onChange={(e) => {
-                                            setSelectedFilterMenus((old) => {
-                                                console.log(e.target.value);
-                                                old.set(_key, {
-                                                    ...selectedFilterMenus.get(_key),
+                                    <div className={styles.setter}>
+                                        <CommonSelect
+                                            value={selectedFilterMenus.get(_key)?.type || 'contain'}
+                                            options={[{ contain: '포함' }, { exclude: '제외' }]}
+                                            onChange={(e) => {
+                                                const _newFilterMenus = new Map(
+                                                    selectedFilterMenus,
+                                                );
+
+                                                _newFilterMenus.set(_key, {
+                                                    ..._newFilterMenus.get(_key),
                                                     type: e.target.value,
                                                 });
-                                                return new Map(old);
-                                            });
-                                        }}
-                                        width="80px"
-                                    />
-                                    <TextInput />
+
+                                                setSelectedFilterMenus(_newFilterMenus);
+                                                filterDataNowFilters(_newFilterMenus);
+                                            }}
+                                            width="80px"
+                                        />
+                                        <TextInput
+                                            value={selectedFilterMenus?.get(_key)?.value || ''}
+                                            onChange={(e) => {
+                                                const _newFilterMenus = new Map(
+                                                    selectedFilterMenus,
+                                                );
+
+                                                _newFilterMenus.set(_key, {
+                                                    ..._newFilterMenus.get(_key),
+                                                    value: e.target.value,
+                                                });
+
+                                                setSelectedFilterMenus(_newFilterMenus);
+                                                filterDataNowFilters(_newFilterMenus);
+                                            }}
+                                        />
+                                    </div>
                                 </div>
                             );
                         })}
