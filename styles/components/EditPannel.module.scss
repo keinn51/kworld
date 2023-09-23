@@ -20,11 +20,6 @@
             justify-content: space-between;
             align-items: center;
             padding: 2% 4%;
-
-            #backButton {
-            }
-            #utilButtons {
-            }
         }
         #infos {
             padding: 0 4% 4% 4%;
@@ -35,14 +30,26 @@
                 @include set-display-start;
 
                 .key {
+                    user-select: none;
                     width: 20%;
                     span {
                         font-size: 15px;
                     }
                 }
                 .value {
+                    min-width: 200px;
+                    border-radius: 3px;
+                    padding: 2px 10px;
+
                     span {
                         font-size: 15px;
+                    }
+                    &:hover {
+                        background-color: $kworld-palette-secondary-100;
+                        cursor: pointer;
+                        input {
+                            background-color: $kworld-palette-secondary-100;
+                        }
                     }
                 }
             }

@@ -181,15 +181,17 @@ const TableSection = ({ tableType }) => {
                     <div className={styles.title}>About Me</div>
                 )}
                 {/* <div className={styles.description}>나는 개발자로서 어떻게 성장하고 있는거니</div> */}
-                <div className={styles.types}>
+                {/* <div className={styles.types}>
                     {selectTypes.map((e, i) => {
                         return (
-                            <div key={`${e}-${i}`} className="">
+                            <div key={`${e}-${i}`} className="" onClick={() => {
+
+                            }}>
                                 <span>{e}</span>
                             </div>
                         );
                     })}
-                </div>
+                </div> */}
                 <div className={styles.graphHandler}>
                     <div className={styles.sort}>
                         <div className={styles.key}>
