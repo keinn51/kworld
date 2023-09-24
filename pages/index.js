@@ -1,7 +1,6 @@
-import Link from 'next/link';
+/* eslint-disable @next/next/no-img-element */
 import styles from '@/styles/home/home.module.scss';
 import { useEffect, useMemo, useState } from 'react';
-import EditPannel from '@/components/EditPannel';
 import TableSection from '@/components/TableSection';
 import { getBoardList } from '@/data/boardApi';
 import Head from 'next/head';
@@ -20,6 +19,11 @@ export default function Home() {
                     rel="stylesheet"
                 />
             </Head>
+            <img
+                src="/assets/background_image.png"
+                alt="none"
+                style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+            ></img>
             <div id={styles.home}>
                 <div id={styles.header}>
                     <div id={styles.welcome}>Welcome To My World</div>
