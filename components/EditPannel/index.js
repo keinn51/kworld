@@ -5,6 +5,14 @@ import styles from '@/styles/components/EditPannel.module.scss';
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropertyBox from './PropertyBox';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
+import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
+import styled from '@emotion/styled';
+import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 
 const QuillEditor = dynamic(() => import('@/components/Utils/SnowQuillEditor'), {
     ssr: false,
@@ -54,7 +62,9 @@ export default function EditPannel(props) {
                                 onClose();
                             }}
                         >
-                            {'<'}
+                            <button>
+                                <KeyboardDoubleArrowRightIcon />
+                            </button>
                         </div>
                         <div id={styles.utilButtons}>
                             <button
@@ -66,7 +76,11 @@ export default function EditPannel(props) {
                                     });
                                 }}
                             >
-                                {_target.isLocked ? '🔓' : '🔒'}
+                                {_target.isLocked === true ? (
+                                    <LockOutlinedIcon />
+                                ) : (
+                                    <LockOpenOutlinedIcon />
+                                )}
                             </button>
                             <button
                                 onClick={() => {
@@ -77,7 +91,11 @@ export default function EditPannel(props) {
                                     });
                                 }}
                             >
-                                {_target.isBookMarked ? '👋🏻' : '🔖'}
+                                {_target.isBookMarked === true ? (
+                                    <BookmarkAddedOutlinedIcon />
+                                ) : (
+                                    <BookmarkAddOutlinedIcon />
+                                )}
                             </button>
                             <button
                                 onClick={() => {
@@ -91,7 +109,11 @@ export default function EditPannel(props) {
                                     }
                                 }}
                             >
-                                {showMode === 'published' ? '수정하기' : '내용보기'}
+                                {showMode === 'published' ? (
+                                    <ModeEditOutlineOutlinedIcon />
+                                ) : (
+                                    <PreviewOutlinedIcon />
+                                )}
                             </button>
                         </div>
                     </div>

@@ -20,6 +20,32 @@
             justify-content: space-between;
             align-items: center;
             padding: 2% 4%;
+
+            #backButton,
+            #utilButtons {
+                button {
+                    @include set-display-center;
+                    background-color: unset;
+                    outline: none;
+                    border: none;
+                    border-radius: 5px;
+                    padding: 5px 5px;
+                    &:hover {
+                        background-color: $kworld-palette-secondary-50;
+                        cursor: pointer;
+                    }
+                    svg {
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+            }
+
+            #backButton {
+            }
+            #utilButtons {
+                display: flex;
+            }
         }
         #infos {
             padding: 0 4% 4% 4%;
@@ -45,10 +71,10 @@
                         font-size: 15px;
                     }
                     &:hover {
-                        background-color: $kworld-palette-secondary-100;
+                        background-color: $kworld-palette-secondary-50;
                         cursor: pointer;
                         input {
-                            background-color: $kworld-palette-secondary-100;
+                            background-color: $kworld-palette-secondary-50;
                         }
                     }
                 }
