@@ -14,9 +14,9 @@ export default function EditableSpan({
     return (
         <div id={id} className={styles.EditableSpan}>
             {(isEditting === false || isBlocked === true) && (
-                <span onClick={() => setIsEditting(true)} style={style}>
+                <p onClick={() => setIsEditting(true)} style={style}>
                     {value || 'empty'}
-                </span>
+                </p>
             )}
             {isEditting === true && isBlocked === false && (
                 <input
@@ -34,6 +34,7 @@ export default function EditableSpan({
                     }}
                     placeholder="enter text"
                     style={style}
+                    autoFocus
                 ></input>
             )}
         </div>

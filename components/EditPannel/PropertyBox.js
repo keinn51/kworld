@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import EditableSpan from '@/components/Utils/EditableSpan';
 import styles from '@/styles/components/EditPannel.module.scss';
+import { propertyDatas } from '@/data/data';
 
 const PropertyBox = ({ propertyEntry, setList, list, listIndex }) => {
     const _key = useMemo(() => propertyEntry[0], [propertyEntry]);
@@ -9,7 +10,7 @@ const PropertyBox = ({ propertyEntry, setList, list, listIndex }) => {
     return (
         <div className={styles.info}>
             <div className={styles.key}>
-                <span>{_key}</span>
+                <span>{propertyDatas[_key]}</span>
             </div>
             <div className={styles.value}>
                 <EditableSpan

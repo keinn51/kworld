@@ -5,58 +5,14 @@ import { deleteBoardById, getBoardList, postBoard } from '@/data/boardApi';
 import CommonModal from '../Utils/Common/Modal';
 import CommonSelect from '../Utils/Common/Select';
 import TextInput from '../Utils/Common/TextInput';
-
-const dataKeyAndValue = {
-    title: '제목',
-    date: '날짜',
-    link: '링크',
-    tags: '태그',
-    type: '분류',
-    status: '상태',
-    createdAt: '작성 날짜',
-    creatorName: '작성자',
-    updatedAt: '갱신 날짜',
-    updatorName: '갱신자',
-    note: '비고',
-};
-
-const dataTableHead = {
-    title: '제목',
-    type: '분류',
-    category: '카테고리',
-    tags: '태그',
-    status: '상태',
-    createdAt: '작성 날짜',
-    creatorName: '작성자',
-    note: '비고',
-};
-
-const sortDropdownMenuDefault = {
-    title: { isSelected: false, key: false, order: 'ascend' },
-    date: { isSelected: false, key: false, order: 'ascend' },
-    link: { isSelected: false, key: false, order: 'ascend' },
-    tags: { isSelected: false, key: false, order: 'ascend' },
-    type: { isSelected: false, key: false, order: 'ascend' },
-    status: { isSelected: false, key: false, order: 'ascend' },
-    createdAt: { isSelected: false, key: false, order: 'ascend' },
-    creatorName: { isSelected: false, key: false, order: 'ascend' },
-    updatedAt: { isSelected: false, key: false, order: 'ascend' },
-    updatorName: { isSelected: false, key: false, order: 'ascend' },
-    note: { isSelected: false, key: false, order: 'ascend' },
-};
-
-const filterDropdownMenuDefault = {
-    title: { isSelected: false, value: '', type: 'contain' },
-    date: { isSelected: false, value: '', type: 'contain' },
-    link: { isSelected: false, value: '', type: 'contain' },
-    tags: { isSelected: false, value: '', type: 'contain' },
-    status: { isSelected: false, value: 1, type: 'contain' },
-    createdAt: { isSelected: false, value: '', type: 'contain' },
-    creatorName: { isSelected: false, value: '', type: 'contain' },
-    updatedAt: { isSelected: false, value: '', type: 'contain' },
-    updatorName: { isSelected: false, value: '', type: 'contain' },
-    note: { isSelected: false, value: '', type: 'contain' },
-};
+import {
+    propertyDatas,
+    filterMenus,
+    sortMenus,
+    sortDropdownMenuDefault,
+    filterDropdownMenuDefault,
+    dataTableHead,
+} from '@/data/data';
 
 const growthTypes = ['store', 'til', 'toy'];
 const aboutMeTypes = ['think', 'favorite'];
@@ -201,9 +157,7 @@ const TableSection = ({ tableType }) => {
                             Array.from(selectedSortMenus.keys()).map((_menu) => {
                                 if (selectedSortMenus.get(_menu).isSelected === false)
                                     return <Fragment key={'sort menu' + _menu} />;
-                                return (
-                                    <div key={'sort menu' + _menu}>{dataKeyAndValue[_menu]}</div>
-                                );
+                                return <div key={'sort menu' + _menu}>{propertyDatas[_menu]}</div>;
                             })}
                         <div
                             className={styles.addButton}
@@ -221,7 +175,7 @@ const TableSection = ({ tableType }) => {
                         {Array.from(selectedFilterMenus.keys()).map((_menu) => {
                             if (selectedFilterMenus.get(_menu).isSelected === false)
                                 return <Fragment key={'filter menu' + _menu} />;
-                            return <div key={'filter menu' + _menu}>{dataKeyAndValue[_menu]}</div>;
+                            return <div key={'filter menu' + _menu}>{propertyDatas[_menu]}</div>;
                         })}
                         <div
                             className={styles.addButton}
@@ -311,7 +265,7 @@ const TableSection = ({ tableType }) => {
                     propStyle={{ width: '250px' }}
                 >
                     <div>
-                        {Object.entries(dataKeyAndValue).map((_data) => {
+                        {Object.entries(sortMenus).map((_data) => {
                             const [_key, _value] = _data;
                             return (
                                 <div key={`sort-drowdown-menu-${_key}`} className={styles.sortMenu}>
@@ -364,7 +318,7 @@ const TableSection = ({ tableType }) => {
                     }}
                 >
                     <div>
-                        {Object.entries(dataKeyAndValue).map((_data) => {
+                        {Object.entries(filterMenus).map((_data) => {
                             const [_key, _value] = _data;
                             return (
                                 <div className={styles.filterMenu} key={`filter-menus-${_key}`}>
