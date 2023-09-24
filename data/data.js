@@ -5,11 +5,11 @@ export const propertyDatas = {
     type: '분류',
     category: '카테고리',
     status: '상태',
-    createdAt: '작성 날짜',
-    creatorName: '작성자',
-    updatedAt: '갱신 날짜',
-    updatorName: '갱신자',
     note: '비고',
+    createdAt: '작성 날짜',
+    updatedAt: '갱신 날짜',
+    creatorName: '작성자',
+    updatorName: '갱신자',
 };
 
 export const sortMenus = {

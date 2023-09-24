@@ -3,18 +3,18 @@ import { boardApiInstance } from '@/data/apiInstance';
 export const postBoard = async (param) => {
     const defaultParam = {
         type: 'til',
-        title: 'dummy page',
-        value: '<p>write something~!</p>',
+        title: '새로운 페이지',
+        value: '<p>적어보겠나?</p>',
         date: null,
         category: '#study',
-        preview: 'its preview',
+        preview: '미리보기',
         link: null,
         tags: null,
         status: 1,
         creatorId: 1,
-        creatorName: 'ks',
+        creatorName: '경수리',
         updatorId: 1,
-        updatorName: 'ks',
+        updatorName: '경수리',
         note: null,
     };
 

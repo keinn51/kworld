@@ -13,6 +13,8 @@ import {
     filterDropdownMenuDefault,
     dataTableHead,
 } from '@/data/data';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import commonStyles from '@/styles/commons/commons.module.scss';
 
 const growthTypes = ['store', 'til', 'toy'];
 const aboutMeTypes = ['think', 'favorite'];
@@ -35,7 +37,7 @@ const TableSection = ({ tableType }) => {
         new Map(Object.entries(filterDropdownMenuDefault)),
     );
 
-    const [dataTableName, setdtn] = useState(Object.entries(dataTableHead));
+    const dataTableName = useMemo(() => Object.entries(dataTableHead), []);
 
     const getDataListByTableType = useCallback(
         (newData) => {
@@ -201,14 +203,17 @@ const TableSection = ({ tableType }) => {
                             {dataList.map((growthInfo, listIdx) => {
                                 return (
                                     <tr key={`grow-info-${growthInfo.id}`}>
-                                        <td
-                                            onClick={async () => {
-                                                await deleteBoardById(growthInfo.id);
-                                                const newData = await getBoardList();
-                                                setDataList(getDataListByTableType(newData));
-                                            }}
-                                        >
-                                            X
+                                        <td className={styles.close}>
+                                            <button
+                                                // className={styles.button}
+                                                onClick={async () => {
+                                                    await deleteBoardById(growthInfo.id);
+                                                    const newData = await getBoardList();
+                                                    setDataList(getDataListByTableType(newData));
+                                                }}
+                                            >
+                                                <CloseOutlinedIcon />
+                                            </button>
                                         </td>
                                         {dataTableName.map((tr, tdIdx) => {
                                             return (

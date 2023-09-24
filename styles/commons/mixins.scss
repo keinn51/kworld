@@ -21,3 +21,15 @@
     justify-content: space-between;
     align-items: center;
 }
+
+@mixin common-button {
+    @include set-display-center;
+    background-color: unset;
+    border: none;
+    border-radius: 3px;
+    padding: 5px;
+    &:hover {
+        cursor: pointer;
+        background-color: $kworld-palette-primary-50;
+    }
+}

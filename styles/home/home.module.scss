@@ -70,11 +70,6 @@ $contetn_font_size: 15px;
                     border-collapse: collapse;
                     $td_padding: 5px 3px;
 
-                    td {
-                        font-family: $kor_font_basic, $eng_font_basic;
-                        padding: 5px 3px;
-                    }
-
                     thead {
                         border-bottom: 1px solid $kworld-palette-secondary-300;
 
@@ -84,9 +79,37 @@ $contetn_font_size: 15px;
                         }
                     }
 
-                    .deleteButton {
-                        position: absolute;
-                        left: -20px;
+                    tr {
+                        td {
+                            font-family: $kor_font_basic, $eng_font_basic;
+                            padding: 5px 3px;
+
+                            &.close {
+                                vertical-align: middle;
+                                width: 30px;
+                                height: 30px;
+
+                                button {
+                                    @include common-button;
+                                    display: none;
+                                    svg {
+                                        width: 20px;
+                                        height: 20px;
+                                    }
+                                    &:hover {
+                                        background-color: #ffd8e1;
+                                    }
+                                }
+                            }
+                        }
+                        &:hover {
+                            background-color: $kworld-palette-primary-50;
+                            td {
+                                button {
+                                    display: flex;
+                                }
+                            }
+                        }
                     }
                 }
                 .addListButton {
@@ -94,6 +117,10 @@ $contetn_font_size: 15px;
                     padding: 3px;
                     color: $kworld-palette-primaryDark-400;
                     border-top: 1px solid $kworld-palette-secondary-100;
+                    &:hover {
+                        cursor: pointer;
+                        background-color: $kworld-palette-primary-50;
+                    }
                 }
             }
         }

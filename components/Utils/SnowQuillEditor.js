@@ -1,8 +1,7 @@
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill, { Quill } from 'react-quill';
 import styles from '@/styles/components/QuillEditor.module.scss';
-import { useMemo, useRef } from 'react';
-import axios from 'axios';
+import { use, useEffect, useMemo, useRef } from 'react';
 import { postImage } from '@/data/imageApi';
 
 export default function QuillEditor({
@@ -12,6 +11,7 @@ export default function QuillEditor({
     onBlur = () => {},
 }) {
     const quillRef = useRef();
+    const memorizedValueRef = useRef();
 
     // 이미지 처리를 하는 핸들러
     const imageHandler = () => {
@@ -63,12 +63,21 @@ export default function QuillEditor({
         [],
     );
 
+    useEffect(() => {
+        return () => {
+            onBlur(memorizedValueRef.current);
+        };
+    }, []);
+
     return (
         <ReactQuill
             ref={quillRef}
             id={styles[id]}
             value={value}
-            onChange={onChange}
+            onChange={(v) => {
+                onChange(v);
+                memorizedValueRef.current = v;
+            }}
             onBlur={() => {
                 onBlur(value);
             }}

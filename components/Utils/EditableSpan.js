@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '@/styles/components/EditableSpan.module.scss';
 
 export default function EditableSpan({
@@ -15,7 +15,7 @@ export default function EditableSpan({
         <div id={id} className={styles.EditableSpan}>
             {(isEditting === false || isBlocked === true) && (
                 <p onClick={() => setIsEditting(true)} style={style}>
-                    {value || 'empty'}
+                    {value || '비어있음'}
                 </p>
             )}
             {isEditting === true && isBlocked === false && (

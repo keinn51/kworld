@@ -25,15 +25,7 @@
             #utilButtons {
                 button {
                     @include set-display-center;
-                    background-color: unset;
-                    outline: none;
-                    border: none;
-                    border-radius: 5px;
-                    padding: 5px 5px;
-                    &:hover {
-                        background-color: $kworld-palette-secondary-50;
-                        cursor: pointer;
-                    }
+                    @include common-button;
                     svg {
                         width: 20px;
                         height: 20px;
