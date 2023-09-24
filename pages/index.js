@@ -14,7 +14,12 @@ export default function Home() {
 
     return (
         <>
-            <Head></Head>
+            <Head>
+                <link
+                    href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap"
+                    rel="stylesheet"
+                />
+            </Head>
             <div id={styles.home}>
                 <div id={styles.header}>
                     <div id={styles.welcome}>Welcome To My World</div>

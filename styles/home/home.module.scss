@@ -44,7 +44,6 @@ $contetn_font_size: 15px;
                 .sort,
                 .filter {
                     .key {
-                        font-family: $kor_font_basic;
                         font-size: $contetn_font_size;
                     }
                     display: flex;
@@ -53,7 +52,6 @@ $contetn_font_size: 15px;
                     .addButton {
                         margin-left: 10px;
                         span {
-                            font-family: $kor_font_basic;
                             font-size: 13px;
                             color: $kworld-palette-secondary-700;
                             user-select: none;
@@ -72,6 +70,7 @@ $contetn_font_size: 15px;
                     $td_padding: 5px 3px;
 
                     td {
+                        font-family: $kor_font_basic, $eng_font_basic;
                         padding: 5px 3px;
                     }
 
@@ -79,7 +78,6 @@ $contetn_font_size: 15px;
                         border-bottom: 1px solid $kworld-palette-secondary-300;
 
                         td {
-                            font-family: $kor_font_basic;
                             font-size: $contetn_font_size;
                             color: $kworld-palette-primaryDark-400;
                         }

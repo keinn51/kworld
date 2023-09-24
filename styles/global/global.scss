@@ -7,6 +7,12 @@ a {
     text-decoration: none;
 }
 
+p,
+span,
+div {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
 .backgroundLayer {
     position: fixed;
     top: 0;
