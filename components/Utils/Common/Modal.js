@@ -1,5 +1,6 @@
-import { useState, useEffect, useMemo, useCallback, useRef, Children } from 'react';
+import { useRef } from 'react';
 import styles from '@/styles/commons/commons.module.scss';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 const CommonModal = (props) => {
     const { children, onClose = () => {}, footerData, propStyle = {} } = props;
@@ -20,17 +21,18 @@ const CommonModal = (props) => {
                     }}
                     style={propStyle}
                 >
-                    <div className={styles.header}>
-                        <div
+                    <div id={styles.header}>
+                        <button
+                            id={styles.close}
                             onClick={() => {
                                 onClose();
                             }}
                         >
-                            x
-                        </div>
+                            <CloseOutlinedIcon />
+                        </button>
                     </div>
-                    <div className={styles.body}>{children}</div>
-                    <div className={styles.footer}>
+                    <div id={styles.body}>{children}</div>
+                    <div id={styles.footer}>
                         {footerData && (
                             <button onClick={footerData.onClick}>{footerData.title}</button>
                         )}

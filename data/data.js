@@ -6,6 +6,8 @@ export const propertyDatas = {
     category: '카테고리',
     status: '상태',
     note: '비고',
+    isBookMarked: '북마크',
+    isLocked: '잠김',
     createdAt: '작성 날짜',
     updatedAt: '갱신 날짜',
     creatorName: '작성자',
