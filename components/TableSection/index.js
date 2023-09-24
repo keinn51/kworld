@@ -269,11 +269,11 @@ const TableSection = ({ tableType }) => {
                     }}
                     propStyle={{ width: '250px' }}
                 >
-                    <div>
+                    <div className={styles.sortMenu}>
                         {Object.entries(sortMenus).map((_data) => {
                             const [_key, _value] = _data;
                             return (
-                                <div key={`sort-drowdown-menu-${_key}`} className={styles.sortMenu}>
+                                <div className={styles.menu} key={`sort-drowdown-menu-${_key}`}>
                                     <div className={styles.nameTag}>
                                         <input
                                             type="checkbox"
@@ -294,22 +294,27 @@ const TableSection = ({ tableType }) => {
                                         />
                                         <div className={styles.item}>{_value}</div>
                                     </div>
-                                    <CommonSelect
-                                        value={selectedSortMenus.get(_key)?.order || 'ascend'}
-                                        options={[{ ascend: '오름차순' }, { descend: '내림차순' }]}
-                                        onChange={(e) => {
-                                            const _newSortMenus = new Map(selectedSortMenus);
+                                    <div className={styles.setter}>
+                                        <CommonSelect
+                                            value={selectedSortMenus.get(_key)?.order || 'ascend'}
+                                            options={[
+                                                { ascend: '오름차순' },
+                                                { descend: '내림차순' },
+                                            ]}
+                                            onChange={(e) => {
+                                                const _newSortMenus = new Map(selectedSortMenus);
 
-                                            _newSortMenus.set(_key, {
-                                                ..._newSortMenus.get(_key),
-                                                order: e.target.value,
-                                            });
+                                                _newSortMenus.set(_key, {
+                                                    ..._newSortMenus.get(_key),
+                                                    order: e.target.value,
+                                                });
 
-                                            setSelectedsortMenus(_newSortMenus);
-                                            sortDataByNowSorts(_newSortMenus);
-                                        }}
-                                        width="100px"
-                                    />
+                                                setSelectedsortMenus(_newSortMenus);
+                                                sortDataByNowSorts(_newSortMenus);
+                                            }}
+                                            width="100px"
+                                        />
+                                    </div>
                                 </div>
                             );
                         })}
@@ -322,11 +327,11 @@ const TableSection = ({ tableType }) => {
                         setOpenAddFilterMenuModal(false);
                     }}
                 >
-                    <div>
+                    <div className={styles.filterMenu}>
                         {Object.entries(filterMenus).map((_data) => {
                             const [_key, _value] = _data;
                             return (
-                                <div className={styles.filterMenu} key={`filter-menus-${_key}`}>
+                                <div className={styles.menu} key={`filter-menus-${_key}`}>
                                     <div className={styles.nameTag}>
                                         <input
                                             type="checkbox"
