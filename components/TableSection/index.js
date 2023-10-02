@@ -177,7 +177,11 @@ const TableSection = ({ tableType }) => {
                         {Array.from(selectedFilterMenus.keys()).map((_menu) => {
                             if (selectedFilterMenus.get(_menu).isSelected === false)
                                 return <Fragment key={'filter menu' + _menu} />;
-                            return <div key={'filter menu' + _menu}>{propertyDatas[_menu]}</div>;
+                            return (
+                                <div className={styles.value} key={'filter menu' + _menu}>
+                                    {propertyDatas[_menu]}
+                                </div>
+                            );
                         })}
                         <div
                             className={styles.addButton}

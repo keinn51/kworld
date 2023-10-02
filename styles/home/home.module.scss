@@ -44,11 +44,20 @@ $content_font_size: 15px;
                 margin-top: 8px;
                 .sort,
                 .filter {
-                    .key {
-                        font-size: $content_font_size;
-                    }
                     display: flex;
                     align-items: center;
+
+                    .key {
+                        font-size: $content_font_size;
+                        margin-right: 10px;
+                    }
+                    .value {
+                        font-size: 14px;
+                        color: $kworld-palette-primary-main;
+                        background-color: $kworld-palette-secondary-100;
+                        padding: 3px 4px;
+                        border-radius: 5px;
+                    }
 
                     .addButton {
                         @include common-button;
@@ -106,6 +115,7 @@ $content_font_size: 15px;
                         }
                         &:hover {
                             background-color: $kworld-palette-primary-50;
+                            cursor: pointer;
                             td {
                                 button {
                                     display: flex;

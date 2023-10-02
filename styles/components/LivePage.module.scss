@@ -1,0 +1,10 @@
+@import 'styles/commons/mixins';
+@import 'styles/commons/variables';
+
+#livePage {
+    padding: 0 4%;
+    p {
+        margin: 0;
+        padding: 0;
+    }
+}

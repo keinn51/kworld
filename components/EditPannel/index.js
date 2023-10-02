@@ -13,6 +13,7 @@ import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import styled from '@emotion/styled';
 import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import LivePage from './LivePage';
 
 const QuillEditor = dynamic(() => import('@/components/Utils/SnowQuillEditor'), {
     ssr: false,
@@ -199,12 +200,7 @@ export default function EditPannel(props) {
                                     </>
                                 );
                             case 'published':
-                                return (
-                                    <div
-                                        id={styles.publishedContent}
-                                        dangerouslySetInnerHTML={{ __html: tableContent }}
-                                    />
-                                );
+                                return <LivePage content={tableContent} />;
                             default:
                                 return <></>;
                         }
