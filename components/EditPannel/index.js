@@ -14,7 +14,8 @@ import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import LivePage from './LivePage';
-import SlideAlert from '../Utils/Common/SlideAlert';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { showSlideAlert } from '@/data/atoms';
 
 const QuillEditor = dynamic(() => import('@/components/Utils/SnowQuillEditor'), {
     ssr: false,
@@ -24,7 +25,7 @@ export default function EditPannel(props) {
     const { list, listIndex, setList, onClose } = props;
     const _target = useMemo(() => list[listIndex], [list, listIndex]);
     const [showMode, setShowMode] = useState('edittable'); // published, edittable
-    const [isAlertOpen, setIsAlertOpen] = useState(false);
+    const setIsAlertOpen = useSetRecoilState(showSlideAlert);
 
     const onchangeData = useCallback(
         (_key, _value) => {
@@ -186,12 +187,6 @@ export default function EditPannel(props) {
                     })()}
                 </div>
             </div>
-            <SlideAlert
-                open={isAlertOpen}
-                text="저장 되었습니다."
-                onClose={() => setIsAlertOpen(false)}
-                hideduration={1000}
-            />
         </div>
     );
 }
