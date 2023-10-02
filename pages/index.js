@@ -1,13 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import styles from '@/styles/home/home.module.scss';
 import { useEffect, useMemo, useState } from 'react';
-import TableSection from '@/components/TableSection';
 import { getBoardList } from '@/data/boardApi';
 import Head from 'next/head';
-import { RecoilRoot, atom, selector, useRecoilState, useRecoilValue } from 'recoil';
-import SlideAlert from '@/components/Utils/Common/SlideAlert';
-import { showSlideAlert } from '@/data/atoms';
 import Home from '@/components/Home';
+import { RecoilRoot, atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 
 // index.js
 export default function Index() {

@@ -1,7 +1,8 @@
 import { getBoardById } from '@/data/boardApi';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import styles from '@/styles/components/publishedPage.module.scss';
+import styles from '@/styles/components/LivePage.module.scss';
+import LivePage from '@/components/EditPannel/LivePage';
 
 export default function Page() {
     const router = useRouter();
@@ -14,12 +15,5 @@ export default function Page() {
         })();
     }, [router.query.id]);
 
-    return (
-        pageData && (
-            <div
-                id={styles.publishedPage}
-                dangerouslySetInnerHTML={{ __html: pageData.value }}
-            ></div>
-        )
-    );
+    return pageData && <LivePage title={pageData.title} content={pageData.value} />;
 }

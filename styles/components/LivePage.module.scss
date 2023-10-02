@@ -2,7 +2,8 @@
 @import 'styles/commons/variables';
 
 #livePage {
-    padding: 0 4%;
+    max-width: 820px;
+    margin: 50px auto;
     font-family: $kor_font_basic;
     margin-bottom: 50px;
     #title {
@@ -30,7 +31,4 @@
             max-width: 100%;
         }
     }
-}
-.ql-video {
-    width: 100%;
 }

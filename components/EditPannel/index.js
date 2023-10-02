@@ -24,7 +24,6 @@ const QuillEditor = dynamic(() => import('@/components/Utils/SnowQuillEditor'), 
 export default function EditPannel(props) {
     const { list, listIndex, setList, onClose } = props;
     const _target = useMemo(() => list[listIndex], [list, listIndex]);
-    const [showMode, setShowMode] = useState('edittable'); // published, edittable
     const setIsAlertOpen = useSetRecoilState(showSlideAlert);
 
     const onchangeData = useCallback(
@@ -97,94 +96,69 @@ export default function EditPannel(props) {
                             </button>
                             <button
                                 onClick={() => {
-                                    switch (showMode) {
-                                        case 'published':
-                                            setShowMode('edittable');
-                                            break;
-                                        case 'edittable':
-                                            setShowMode('published');
-                                            break;
-                                    }
+                                    window.open(`/page/${_target.id}`, '_blank');
                                 }}
                             >
-                                {showMode === 'published' ? (
-                                    <ModeEditOutlineOutlinedIcon />
-                                ) : (
-                                    <PreviewOutlinedIcon />
-                                )}
+                                <PreviewOutlinedIcon />
                             </button>
                         </div>
                     </div>
-                    {(() => {
-                        switch (showMode) {
-                            case 'edittable':
-                                return (
-                                    <>
-                                        <div id={styles.infos}>
-                                            <div id={styles.title}>
-                                                <EditableSpan
-                                                    value={_target.title}
-                                                    onChange={(e) => {
-                                                        onchangeData('title', e.target.value);
-                                                    }}
-                                                    onBlur={(e) => {
-                                                        onchangeData('title', e.target.value);
-                                                    }}
-                                                    style={{ fontSize: '18px', fontWeight: 600 }}
-                                                />
-                                            </div>
-                                            {(() => {
-                                                const filteredKeys = [
-                                                    'id',
-                                                    'title',
-                                                    'value',
-                                                    'preview',
-                                                    'isLocked',
-                                                    'creatorId',
-                                                    'updatorId',
-                                                    'isBookMarked',
-                                                    'date',
-                                                ];
-                                                const _entries = Object.entries(_target).filter(
-                                                    (_entry) =>
-                                                        !filteredKeys.find(
-                                                            (_key) => _key === _entry[0],
-                                                        ),
-                                                );
-
-                                                return _entries.map((_entry, _i) => (
-                                                    <PropertyBox
-                                                        key={`property-box-${_entry[0]}-${_i}`}
-                                                        propertyEntry={_entry}
-                                                        list={list}
-                                                        listIndex={listIndex}
-                                                        setList={setList}
-                                                    />
-                                                ));
-                                            })()}
-                                        </div>
-                                        <div id={styles.editor}>
-                                            <QuillEditor
-                                                id="til_main"
-                                                value={_target.value}
-                                                onChange={(content) => {
-                                                    console.log(
-                                                        `%c ${`quill change text`}🙏🏻`,
-                                                        'color:red',
-                                                        content,
-                                                    );
-                                                    onchangeData('value', content);
-                                                }}
-                                            />
-                                        </div>
-                                    </>
+                    <>
+                        <div id={styles.infos}>
+                            <div id={styles.title}>
+                                <EditableSpan
+                                    value={_target.title}
+                                    onChange={(e) => {
+                                        onchangeData('title', e.target.value);
+                                    }}
+                                    onBlur={(e) => {
+                                        onchangeData('title', e.target.value);
+                                    }}
+                                    style={{ fontSize: '18px', fontWeight: 600 }}
+                                />
+                            </div>
+                            {(() => {
+                                const filteredKeys = [
+                                    'id',
+                                    'title',
+                                    'value',
+                                    'preview',
+                                    'isLocked',
+                                    'creatorId',
+                                    'updatorId',
+                                    'isBookMarked',
+                                    'date',
+                                ];
+                                const _entries = Object.entries(_target).filter(
+                                    (_entry) => !filteredKeys.find((_key) => _key === _entry[0]),
                                 );
-                            case 'published':
-                                return <LivePage title={_target.title} content={_target.value} />;
-                            default:
-                                return <></>;
-                        }
-                    })()}
+
+                                return _entries.map((_entry, _i) => (
+                                    <PropertyBox
+                                        key={`property-box-${_entry[0]}-${_i}`}
+                                        propertyEntry={_entry}
+                                        list={list}
+                                        listIndex={listIndex}
+                                        setList={setList}
+                                    />
+                                ));
+                            })()}
+                        </div>
+                        <div id={styles.editor}>
+                            <QuillEditor
+                                id="til_main"
+                                value={_target.value}
+                                onChange={(content) => {
+                                    console.log(
+                                        `%c ${`quill change text`}🙏🏻`,
+                                        'color:red',
+                                        content,
+                                    );
+                                    onchangeData('value', content);
+                                }}
+                            />
+                        </div>
+                    </>
                 </div>
             </div>
         </div>
