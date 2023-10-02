@@ -10,10 +10,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
-import styled from '@emotion/styled';
 import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import SaveIcon from '@mui/icons-material/Save';
 import LivePage from './LivePage';
+import SlideAlert from '../Utils/Common/SlideAlert';
 
 const QuillEditor = dynamic(() => import('@/components/Utils/SnowQuillEditor'), {
     ssr: false,
@@ -22,10 +23,8 @@ const QuillEditor = dynamic(() => import('@/components/Utils/SnowQuillEditor'), 
 export default function EditPannel(props) {
     const { list, listIndex, setList, onClose } = props;
     const _target = useMemo(() => list[listIndex], [list, listIndex]);
-    const [title, setTitle] = useState(_target.title);
-    const [tableContent, setTableContent] = useState(_target.value);
     const [showMode, setShowMode] = useState('edittable'); // published, edittable
-    const changedData = useRef(null);
+    const [isAlertOpen, setIsAlertOpen] = useState(false);
 
     const onchangeData = useCallback(
         (_key, _value) => {
@@ -37,20 +36,6 @@ export default function EditPannel(props) {
         },
         [listIndex, setList],
     );
-
-    // _target이 바뀌면 ref도 바꾸어줌
-    useEffect(() => {
-        console.log(`changed current`, _target);
-        changedData.current = { ..._target };
-        setTitle(_target.title);
-    }, [_target]);
-
-    useEffect(() => {
-        return () => {
-            console.log(`%c ${`saved!`}🙏🏻`, 'color:orange; font-size:20px;', changedData.current);
-            if (changedData.current) updateBoardById(changedData.current.id, changedData.current);
-        };
-    }, []);
 
     return (
         <div
@@ -79,6 +64,14 @@ export default function EditPannel(props) {
                             </button>
                         </div>
                         <div id={styles.utilButtons}>
+                            <button
+                                onClick={() => {
+                                    setIsAlertOpen(true);
+                                    updateBoardById(_target.id, _target);
+                                }}
+                            >
+                                <SaveIcon />
+                            </button>
                             <button
                                 onClick={() => {
                                     onchangeData('isLocked', !_target['isLocked']);
@@ -129,9 +122,9 @@ export default function EditPannel(props) {
                                         <div id={styles.infos}>
                                             <div id={styles.title}>
                                                 <EditableSpan
-                                                    value={title}
+                                                    value={_target.title}
                                                     onChange={(e) => {
-                                                        setTitle(e.target.value);
+                                                        onchangeData('title', e.target.value);
                                                     }}
                                                     onBlur={(e) => {
                                                         onchangeData('title', e.target.value);
@@ -172,19 +165,11 @@ export default function EditPannel(props) {
                                         <div id={styles.editor}>
                                             <QuillEditor
                                                 id="til_main"
-                                                value={tableContent}
+                                                value={_target.value}
                                                 onChange={(content) => {
                                                     console.log(
-                                                        `%c ${`content`}🙏🏻`,
+                                                        `%c ${`quill change text`}🙏🏻`,
                                                         'color:red',
-                                                        content,
-                                                    );
-                                                    setTableContent(content);
-                                                }}
-                                                onBlur={(content) => {
-                                                    if (content === undefined) return;
-                                                    console.log(
-                                                        `${`quill editor blur`}😒`,
                                                         content,
                                                     );
                                                     onchangeData('value', content);
@@ -194,13 +179,19 @@ export default function EditPannel(props) {
                                     </>
                                 );
                             case 'published':
-                                return <LivePage title={title} content={tableContent} />;
+                                return <LivePage title={_target.title} content={_target.value} />;
                             default:
                                 return <></>;
                         }
                     })()}
                 </div>
             </div>
+            <SlideAlert
+                open={isAlertOpen}
+                text="저장 되었습니다."
+                onClose={() => setIsAlertOpen(false)}
+                hideduration={1000}
+            />
         </div>
     );
 }
