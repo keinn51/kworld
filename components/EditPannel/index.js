@@ -186,7 +186,8 @@ export default function EditPannel(props) {
                                                 setTableContent(content);
                                             }}
                                             onBlur={(content) => {
-                                                console.log(`%c ${`blur`}🙏🏻`, 'color:red', content);
+                                                if (content === undefined) return;
+                                                console.log(`${`quill editor blur`}😒`, content);
                                                 setList((_list) => {
                                                     _list[listIndex]['value'] = content;
                                                     _list[listIndex] = Object.assign(

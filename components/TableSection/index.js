@@ -14,16 +14,15 @@ import {
     dataTableHead,
 } from '@/data/data';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import commonStyles from '@/styles/commons/commons.module.scss';
 
 const growthTypes = ['store', 'til', 'toy'];
 const aboutMeTypes = ['think', 'favorite'];
 
 const TableSection = ({ tableType }) => {
-    const selectTypes = useMemo(
-        () => (tableType === 'growth' ? ['STUDY', 'TIL', 'TOY'] : ['THINK', 'FAVORITE']),
-        [tableType],
-    );
+    // const selectTypes = useMemo(
+    //     () => (tableType === 'growth' ? ['STUDY', 'TIL', 'TOY'] : ['THINK', 'FAVORITE']),
+    //     [tableType],
+    // );
     const [dataList, setDataList] = useState([]); //all data list
     const [isOpenEditModal, setIsOpenEditModal] = useState(false);
     const [clickedItemInfo, setClickedItemInfo] = useState(null);
