@@ -27,6 +27,17 @@ export default function EditPannel(props) {
     const [showMode, setShowMode] = useState('edittable'); // published, edittable
     const changedData = useRef(null);
 
+    const onchangeData = useCallback(
+        (_key, _value) => {
+            setList((_list) => {
+                _list[listIndex][_key] = _value;
+                _list[listIndex] = Object.assign({}, _list[listIndex]);
+                return Object.assign([], _list);
+            });
+        },
+        [listIndex, setList],
+    );
+
     // _target이 바뀌면 ref도 바꾸어줌
     useEffect(() => {
         console.log(`changed current`, _target);
@@ -70,11 +81,7 @@ export default function EditPannel(props) {
                         <div id={styles.utilButtons}>
                             <button
                                 onClick={() => {
-                                    setList((_list) => {
-                                        _list[listIndex]['isLocked'] = !_target['isLocked'];
-                                        _list[listIndex] = Object.assign({}, _list[listIndex]);
-                                        return Object.assign([], _list);
-                                    });
+                                    onchangeData('isLocked', !_target['isLocked']);
                                 }}
                             >
                                 {_target.isLocked === true ? (
@@ -85,11 +92,7 @@ export default function EditPannel(props) {
                             </button>
                             <button
                                 onClick={() => {
-                                    setList((_list) => {
-                                        _list[listIndex]['isBookMarked'] = !_target['isBookMarked'];
-                                        _list[listIndex] = Object.assign({}, _list[listIndex]);
-                                        return Object.assign([], _list);
-                                    });
+                                    onchangeData('isBookMarked', !_target['isBookMarked']);
                                 }}
                             >
                                 {_target.isBookMarked === true ? (
@@ -131,15 +134,7 @@ export default function EditPannel(props) {
                                                         setTitle(e.target.value);
                                                     }}
                                                     onBlur={(e) => {
-                                                        setList((_list) => {
-                                                            _list[listIndex]['title'] =
-                                                                e.target.value;
-                                                            _list[listIndex] = Object.assign(
-                                                                {},
-                                                                _list[listIndex],
-                                                            );
-                                                            return Object.assign([], _list);
-                                                        });
+                                                        onchangeData('title', e.target.value);
                                                     }}
                                                     style={{ fontSize: '18px', fontWeight: 600 }}
                                                 />
@@ -174,34 +169,32 @@ export default function EditPannel(props) {
                                                 ));
                                             })()}
                                         </div>
-                                        <QuillEditor
-                                            id="til_main"
-                                            value={tableContent}
-                                            onChange={(content) => {
-                                                console.log(
-                                                    `%c ${`content`}🙏🏻`,
-                                                    'color:red',
-                                                    content,
-                                                );
-                                                setTableContent(content);
-                                            }}
-                                            onBlur={(content) => {
-                                                if (content === undefined) return;
-                                                console.log(`${`quill editor blur`}😒`, content);
-                                                setList((_list) => {
-                                                    _list[listIndex]['value'] = content;
-                                                    _list[listIndex] = Object.assign(
-                                                        {},
-                                                        _list[listIndex],
+                                        <div id={styles.editor}>
+                                            <QuillEditor
+                                                id="til_main"
+                                                value={tableContent}
+                                                onChange={(content) => {
+                                                    console.log(
+                                                        `%c ${`content`}🙏🏻`,
+                                                        'color:red',
+                                                        content,
                                                     );
-                                                    return Object.assign([], _list);
-                                                });
-                                            }}
-                                        />
+                                                    setTableContent(content);
+                                                }}
+                                                onBlur={(content) => {
+                                                    if (content === undefined) return;
+                                                    console.log(
+                                                        `${`quill editor blur`}😒`,
+                                                        content,
+                                                    );
+                                                    onchangeData('value', content);
+                                                }}
+                                            />
+                                        </div>
                                     </>
                                 );
                             case 'published':
-                                return <LivePage content={tableContent} />;
+                                return <LivePage title={title} content={tableContent} />;
                             default:
                                 return <></>;
                         }

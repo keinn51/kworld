@@ -4,6 +4,14 @@ import styles from '@/styles/components/QuillEditor.module.scss';
 import { use, useEffect, useMemo, useRef } from 'react';
 import { postImage } from '@/data/imageApi';
 
+const SELECTOR_CONTAINER = 'quill-container';
+const DEFAULT_CONFIG = {
+    theme: 'snow',
+    bounds: SELECTOR_CONTAINER,
+};
+
+new Quill(SELECTOR_CONTAINER, DEFAULT_CONFIG);
+
 export default function QuillEditor({
     id = '',
     value = '',
@@ -72,8 +80,9 @@ export default function QuillEditor({
     return (
         <ReactQuill
             ref={quillRef}
-            id={styles[id]}
+            id={styles.quillEditor}
             value={value}
+            bounds={`#${styles.quillEditor}`}
             onChange={(v) => {
                 onChange(v);
                 memorizedValueRef.current = v;
