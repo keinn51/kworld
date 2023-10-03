@@ -1,3 +1,6 @@
+@import 'styles/commons/mixins';
+@import 'styles/commons/variables';
+
 .EditableSpan {
     width: 100%;
     display: flex;
@@ -6,7 +9,7 @@
     p {
         width: 100%;
         margin: 0;
-        padding: 3px 0;
+        padding: 2px 0;
         // border-bottom: 1px solid transparent;
     }
     input {

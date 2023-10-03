@@ -42,8 +42,39 @@ $content_font_size: 15px;
             }
             .graphHandler {
                 margin-top: 8px;
+
+                .class {
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+
+                    .key {
+                        font-size: $content_font_size;
+                        margin-right: 10px;
+                    }
+
+                    .values {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+
+                        .value {
+                            @include common-button;
+                            font-size: 14px;
+                            &[data-active='true'] {
+                                color: white;
+                                background-color: $kworld-palette-primary-400;
+                            }
+                            &[data-active='false'] {
+                                border: 1px solid $kworld-palette-primary-100;
+                            }
+                        }
+                    }
+                }
+
                 .sort,
                 .filter {
+                    height: 30px;
                     display: flex;
                     align-items: center;
 

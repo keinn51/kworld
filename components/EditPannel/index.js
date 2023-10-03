@@ -11,10 +11,8 @@ import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import SaveIcon from '@mui/icons-material/Save';
-import LivePage from './LivePage';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { showSlideAlert } from '@/data/atoms';
 
 const QuillEditor = dynamic(() => import('@/components/Utils/SnowQuillEditor'), {
@@ -36,6 +34,8 @@ export default function EditPannel(props) {
         },
         [listIndex, setList],
     );
+
+    console.log(_target);
 
     return (
         <div
@@ -137,9 +137,8 @@ export default function EditPannel(props) {
                                     <PropertyBox
                                         key={`property-box-${_entry[0]}-${_i}`}
                                         propertyEntry={_entry}
-                                        list={list}
-                                        listIndex={listIndex}
-                                        setList={setList}
+                                        onchangeData={onchangeData}
+                                        target={_target}
                                     />
                                 ));
                             })()}

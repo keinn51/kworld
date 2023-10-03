@@ -12,6 +12,8 @@ import {
     sortDropdownMenuDefault,
     filterDropdownMenuDefault,
     dataTableHead,
+    growthClassTypes,
+    aboutMeClassType,
 } from '@/data/data';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
@@ -28,6 +30,7 @@ const TableSection = ({ tableType }) => {
     const [clickedItemInfo, setClickedItemInfo] = useState(null);
     const [openAddSortMenuModal, setOpenAddSortMenuModal] = useState(false);
     const [openAddFilterMenuModal, setOpenAddFilterMenuModal] = useState(false);
+    const [classifyType, setClassifyType] = useState('all'); //all, store, ...
 
     const [selectedSortMenus, setSelectedsortMenus] = useState(
         new Map(Object.entries(sortDropdownMenuDefault)),
@@ -40,6 +43,10 @@ const TableSection = ({ tableType }) => {
 
     const getDataListByTableType = useCallback(
         (newData) => {
+            if (classifyType !== 'all') {
+                newData = newData.filter((_data) => _data.type === classifyType);
+            }
+
             switch (tableType) {
                 case 'growth': {
                     return newData?.filter((_data) => growthTypes.includes(_data.type)) || [];
@@ -49,7 +56,7 @@ const TableSection = ({ tableType }) => {
                 }
             }
         },
-        [tableType],
+        [classifyType, tableType],
     );
 
     const sortDataByNowSorts = useCallback(
@@ -150,6 +157,39 @@ const TableSection = ({ tableType }) => {
                     })}
                 </div> */}
                 <div className={styles.graphHandler}>
+                    <div className={styles.class}>
+                        {/* <div className={styles.key}>
+                            <span>분류</span>
+                        </div> */}
+                        <div className={styles.values}>
+                            {tableType === 'growth' &&
+                                Object.keys(growthClassTypes).map((_key, _i) => (
+                                    <div
+                                        className={styles.value}
+                                        key={`growth-class-${_i}`}
+                                        onClick={() => {
+                                            setClassifyType(_key);
+                                        }}
+                                        data-active={classifyType === _key}
+                                    >
+                                        {growthClassTypes[_key]}
+                                    </div>
+                                ))}
+                            {tableType === 'aboutme' &&
+                                Object.keys(aboutMeClassType).map((_key, _i) => (
+                                    <div
+                                        className={styles.value}
+                                        key={`growth-class-${_i}`}
+                                        onClick={() => {
+                                            setClassifyType(_key);
+                                        }}
+                                        data-active={classifyType === _key}
+                                    >
+                                        {aboutMeClassType[_key]}
+                                    </div>
+                                ))}
+                        </div>
+                    </div>
                     <div className={styles.sort}>
                         <div className={styles.key}>
                             <span>정렬</span>

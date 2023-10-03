@@ -8,7 +8,7 @@ import { RecoilRoot, atom, selector, useRecoilState, useRecoilValue } from 'reco
 // index.js
 export default function Index() {
     useEffect(() => {
-        console.log(`getBoardList()`, getBoardList());
+        getBoardList().then((res) => console.log(`getBoardList()`, res));
     }, []);
 
     return (

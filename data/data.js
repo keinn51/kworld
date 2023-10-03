@@ -72,3 +72,17 @@ export const dataTableHead = {
     creatorName: '작성자',
     note: '비고',
 };
+
+export const growthClassTypes = {
+    all: '모두보기',
+    store: '지식창고',
+    project: '프로젝트',
+    diary: '일지',
+    none: '분류 없음',
+};
+
+export const aboutMeClassType = {
+    all: '모두보기',
+    favorite: '취미',
+    think: '생각',
+};
