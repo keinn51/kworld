@@ -17,14 +17,7 @@ import {
 } from '@/data/data';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
-const growthTypes = ['store', 'til', 'toy'];
-const aboutMeTypes = ['think', 'favorite'];
-
 const TableSection = ({ tableType }) => {
-    // const selectTypes = useMemo(
-    //     () => (tableType === 'growth' ? ['STUDY', 'TIL', 'TOY'] : ['THINK', 'FAVORITE']),
-    //     [tableType],
-    // );
     const [dataList, setDataList] = useState([]); //all data list
     const [isOpenEditModal, setIsOpenEditModal] = useState(false);
     const [clickedItemInfo, setClickedItemInfo] = useState(null);
@@ -43,20 +36,28 @@ const TableSection = ({ tableType }) => {
 
     const getDataListByTableType = useCallback(
         (newData) => {
-            if (classifyType !== 'all') {
-                newData = newData.filter((_data) => _data.type === classifyType);
-            }
+            // if (classifyType !== 'all') {
+            //     newData = newData.filter((_data) => _data.type === classifyType);
+            // }
 
             switch (tableType) {
                 case 'growth': {
-                    return newData?.filter((_data) => growthTypes.includes(_data.type)) || [];
+                    return (
+                        newData?.filter((_data) =>
+                            Object.keys(growthClassTypes).includes(_data.type),
+                        ) || []
+                    );
                 }
                 case 'aboutme': {
-                    return newData?.filter((_data) => aboutMeTypes.includes(_data.type)) || [];
+                    return (
+                        newData?.filter((_data) =>
+                            Object.keys(aboutMeClassType).includes(_data.type),
+                        ) || []
+                    );
                 }
             }
         },
-        [classifyType, tableType],
+        [tableType],
     );
 
     const sortDataByNowSorts = useCallback(
