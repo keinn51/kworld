@@ -10,15 +10,13 @@ const PropertyBox = ({ propertyEntry, onchangeData, target }) => {
     const _value = useMemo(() => propertyEntry[1], [propertyEntry]);
     const [spanValue, setSpanValue] = useState(propertyEntry[1]);
 
-    console.log(_key);
-
     return (
         <div className={styles.info}>
             <div className={styles.key}>
                 <span>{propertyDatas[_key]}</span>
             </div>
-            <div className={styles.value} data-edittable={['note'].includes(_key)}>
-                {['note'].includes(_key) && (
+            <div className={styles.value} data-edittable={['category', 'note'].includes(_key)}>
+                {['category', 'note'].includes(_key) && (
                     <EditableSpan
                         value={spanValue}
                         onChange={(e) => {
@@ -29,7 +27,6 @@ const PropertyBox = ({ propertyEntry, onchangeData, target }) => {
                                 onchangeData(_key, e.target.value);
                             }
                         }}
-                        isBlocked={['link'].includes(_key)}
                         style={{ fontSize: '15px' }}
                     />
                 )}

@@ -36,9 +36,9 @@ const TableSection = ({ tableType }) => {
 
     const getDataListByTableType = useCallback(
         (newData) => {
-            // if (classifyType !== 'all') {
-            //     newData = newData.filter((_data) => _data.type === classifyType);
-            // }
+            if (classifyType !== 'all') {
+                newData = newData.filter((_data) => _data.type === classifyType);
+            }
 
             switch (tableType) {
                 case 'growth': {
@@ -57,7 +57,7 @@ const TableSection = ({ tableType }) => {
                 }
             }
         },
-        [tableType],
+        [classifyType, tableType],
     );
 
     const sortDataByNowSorts = useCallback(

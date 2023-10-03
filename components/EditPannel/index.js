@@ -35,8 +35,6 @@ export default function EditPannel(props) {
         [listIndex, setList],
     );
 
-    console.log(_target);
-
     return (
         <div
             className="backgroundLayer"

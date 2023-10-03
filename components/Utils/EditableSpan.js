@@ -7,18 +7,17 @@ export default function EditableSpan({
     onChange = () => {},
     onBlur = () => {},
     style = {},
-    isBlocked = false,
 }) {
     const [isEditting, setIsEditting] = useState(false);
 
     return (
         <div id={id} className={styles.EditableSpan}>
-            {(isEditting === false || isBlocked === true) && (
+            {isEditting === false && (
                 <p onClick={() => setIsEditting(true)} style={style}>
                     {value || '비어있음'}
                 </p>
             )}
-            {isEditting === true && isBlocked === false && (
+            {isEditting === true && (
                 <input
                     value={value || ''}
                     onChange={onChange}
