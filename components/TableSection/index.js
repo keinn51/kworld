@@ -14,8 +14,10 @@ import {
     dataTableHead,
     growthClassTypes,
     aboutMeClassType,
+    statusClassTyeps,
 } from '@/data/data';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import { getYearMonthDate } from '@/data/functions';
 
 const TableSection = ({ tableType }) => {
     const [dataList, setDataList] = useState([]); //all data list
@@ -260,20 +262,38 @@ const TableSection = ({ tableType }) => {
                                             </button>
                                         </td>
                                         {dataTableName.map((tr, tdIdx) => {
+                                            const [_enTitle, _korTitle] = tr;
+
+                                            const _tableValue = (() => {
+                                                switch (_enTitle) {
+                                                    case 'createdAt':
+                                                        return getYearMonthDate(
+                                                            new Date(growthInfo[_enTitle]),
+                                                        );
+                                                    case 'status':
+                                                        return statusClassTyeps[
+                                                            growthInfo[_enTitle]
+                                                        ];
+                                                    case 'isLocked':
+                                                        if (growthInfo[_enTitle]) return '잠김';
+                                                        else return '안잠김';
+                                                    default:
+                                                        return growthInfo[_enTitle] ?? '';
+                                                }
+                                            })();
+
                                             return (
                                                 <td
-                                                    key={`table-head-${tr[1]}-${tdIdx}`}
+                                                    key={`table-head-${_enTitle}-${tdIdx}`}
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        if (tr[0] === 'title') {
-                                                            setClickedItemInfo({
-                                                                index: listIdx,
-                                                            });
-                                                            setIsOpenEditModal(true);
-                                                        }
+                                                        setClickedItemInfo({
+                                                            index: listIdx,
+                                                        });
+                                                        setIsOpenEditModal(true);
                                                     }}
                                                 >
-                                                    {growthInfo[tr[0]] ?? ''}
+                                                    {_tableValue}
                                                 </td>
                                             );
                                         })}

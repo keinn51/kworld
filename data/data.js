@@ -64,12 +64,10 @@ export const filterDropdownMenuDefault = {
 
 export const dataTableHead = {
     title: '제목',
-    type: '분류',
     category: '카테고리',
-    tags: '태그',
     status: '상태',
     createdAt: '작성 날짜',
-    creatorName: '작성자',
+    isLocked: '잠김 여부',
     note: '비고',
 };
 
@@ -94,5 +92,7 @@ export const aboutMeClassType = {
     favorite: '취미',
     think: '생각',
 };
+
+export const statusClassTyeps = { 0: '시작 전', 1: '진행 중', 2: '완료', 3: '보류' };
 
 export const statusSelectTyeps = [{ 0: '시작 전' }, { 1: '진행 중' }, { 2: '완료' }, { 3: '보류' }];
