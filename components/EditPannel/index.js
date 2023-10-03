@@ -128,6 +128,9 @@ export default function EditPannel(props) {
                                     'updatorId',
                                     'isBookMarked',
                                     'date',
+                                    'tags',
+                                    'creatorName',
+                                    'updatorName',
                                 ];
                                 const _entries = Object.entries(_target).filter(
                                     (_entry) => !filteredKeys.find((_key) => _key === _entry[0]),

@@ -46,6 +46,7 @@
             }
             .info {
                 @include set-display-start;
+                height: 32px;
 
                 .key {
                     user-select: none;
@@ -55,9 +56,15 @@
                     }
                 }
                 .value {
-                    min-width: 200px;
-                    border-radius: 3px;
-                    padding: 2px 10px;
+                    @include set-display-center;
+
+                    padding: 0 10px;
+
+                    &[data-edittable='true'] {
+                        min-width: 200px;
+                        border-radius: 3px;
+                        padding: 2px 10px;
+                    }
 
                     span,
                     a {

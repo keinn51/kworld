@@ -81,8 +81,18 @@ export const growthClassTypes = {
     none: '분류 없음',
 };
 
+export const growthSelectTypes = [
+    { all: '모두보기' },
+    { store: '지식창고' },
+    { project: '프로젝트' },
+    { diary: '일지' },
+    { none: '분류 없음' },
+];
+
 export const aboutMeClassType = {
     all: '모두보기',
     favorite: '취미',
     think: '생각',
 };
+
+export const statusSelectTyeps = [{ 0: '시작 전' }, { 1: '진행 중' }, { 2: '완료' }, { 3: '보류' }];
