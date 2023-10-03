@@ -43,6 +43,14 @@ const PropertyBox = ({ propertyEntry, onchangeData, target }) => {
                             onchangeData(_key, e.target.value);
                         }}
                         options={growthSelectTypes}
+                        sx={{
+                            '& .MuiInputBase-root': {
+                                width: '120px',
+                                height: '26px',
+                                padding: '0 10px',
+                                fontSize: '14px',
+                            },
+                        }}
                     />
                 )}
                 {['status'].includes(_key) && (
@@ -52,6 +60,14 @@ const PropertyBox = ({ propertyEntry, onchangeData, target }) => {
                             onchangeData(_key, e.target.value);
                         }}
                         options={statusSelectTyeps}
+                        sx={{
+                            '& .MuiInputBase-root': {
+                                width: '120px',
+                                height: '26px',
+                                padding: '0 10px',
+                                fontSize: '14px',
+                            },
+                        }}
                     />
                 )}
             </div>

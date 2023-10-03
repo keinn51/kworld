@@ -47,6 +47,8 @@
             .info {
                 @include set-display-start;
                 height: 32px;
+                padding: 5px 0;
+                border-bottom: 1px dashed rgb(228, 222, 222);
 
                 .key {
                     user-select: none;

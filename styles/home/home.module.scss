@@ -2,7 +2,7 @@
 @import 'styles/commons/variables';
 
 $pc_width: 1024px;
-$title_font_size: 30px;
+$title_font_size: 35px;
 $content_font_size: 15px;
 
 #home {
@@ -47,6 +47,7 @@ $content_font_size: 15px;
                     height: 30px;
                     display: flex;
                     align-items: center;
+                    padding-bottom: 8px;
 
                     .key {
                         font-size: $content_font_size;
@@ -57,16 +58,19 @@ $content_font_size: 15px;
                         display: flex;
                         align-items: center;
                         gap: 10px;
+                        box-shadow: 0 -2px 0px 0px $kworld-palette-secondary-light inset;
 
                         .value {
                             @include common-button;
                             font-size: 14px;
+                            padding: 3px 5px;
+                            border-radius: unset;
                             &[data-active='true'] {
-                                color: white;
-                                background-color: $kworld-palette-primary-400;
+                                // color: white;
+                                border-bottom: 2px solid $kworld-palette-primary-700;
                             }
                             &[data-active='false'] {
-                                border: 1px solid $kworld-palette-primary-100;
+                                // border: 1px solid $kworld-palette-primary-100;
                             }
                         }
                     }
