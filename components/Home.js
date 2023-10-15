@@ -11,7 +11,25 @@ const Home = () => {
         <div id={styles.home}>
             <div id={styles.header}>
                 <div id={styles.welcome}>Welcome To My World</div>
-                <div id={styles.description}>개발자 이경수의 지식창고 입니다.</div>
+                <div id={styles.description}>
+                    <p>안녕하세요 개발자 이경수입니다.</p>
+                    <p>이 곳은 제가 공부하고, 구현하고, 생각한 것들은 모아둔 사적인 창고입니다.</p>
+                    <p>저에 대해서 더 알고 싶으시다면 아래를 참고하시기 바랍니다.</p>
+                    <p>
+                        <b>Blog : </b>
+                        <a href="https://velog.io/@keinn51">https://velog.io/@keinn51</a>
+                    </p>
+                    <p>
+                        <b>LinkedIn : </b>
+                        <a href="https://www.linkedin.com/in/kyung-soo-lee-6329b2247/">
+                            https://www.linkedin.com/in/kyung-soo-lee-6329b2247/
+                        </a>
+                    </p>
+                    <p>
+                        <b>GitHub : </b>
+                        <a href="https://github.com/keinn51">https://github.com/keinn51</a>
+                    </p>
+                </div>
             </div>
             <div id={styles.body}>
                 <TableSection tableType="growth" />
