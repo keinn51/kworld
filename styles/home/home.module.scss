@@ -22,6 +22,9 @@ $content_font_size: 15px;
         #description {
             margin-top: 10px;
             font-size: 15px;
+            a {
+                color: $kworld-palette-primary-300;
+            }
         }
     }
     #body {

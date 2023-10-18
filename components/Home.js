@@ -17,17 +17,24 @@ const Home = () => {
                     <p>저에 대해서 더 알고 싶으시다면 아래를 참고하시기 바랍니다.</p>
                     <p>
                         <b>Blog : </b>
-                        <a href="https://velog.io/@keinn51">https://velog.io/@keinn51</a>
+                        <a href="https://velog.io/@keinn51" target="_blank">
+                            https://velog.io/@keinn51
+                        </a>
                     </p>
                     <p>
                         <b>LinkedIn : </b>
-                        <a href="https://www.linkedin.com/in/kyung-soo-lee-6329b2247/">
+                        <a
+                            href="https://www.linkedin.com/in/kyung-soo-lee-6329b2247/"
+                            target="_blank"
+                        >
                             https://www.linkedin.com/in/kyung-soo-lee-6329b2247/
                         </a>
                     </p>
                     <p>
                         <b>GitHub : </b>
-                        <a href="https://github.com/keinn51">https://github.com/keinn51</a>
+                        <a href="https://github.com/keinn51" target="_blank">
+                            https://github.com/keinn51
+                        </a>
                     </p>
                 </div>
             </div>
