@@ -18,14 +18,19 @@ import {
 } from '@/data/data';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { getYearMonthDate } from '@/data/functions';
+import { useRouter } from 'next/router';
+import { checkPassword } from '@/data/certApi';
 
 const TableSection = ({ tableType }) => {
+    const tableRouter = useRouter();
     const [dataList, setDataList] = useState([]); //all data list
     const [isOpenEditModal, setIsOpenEditModal] = useState(false);
     const [clickedItemInfo, setClickedItemInfo] = useState(null);
     const [openAddSortMenuModal, setOpenAddSortMenuModal] = useState(false);
     const [openAddFilterMenuModal, setOpenAddFilterMenuModal] = useState(false);
+    const [openEnterPasswordModal, setOpenEnterPasswordModal] = useState(false);
     const [classifyType, setClassifyType] = useState('all'); //all, store, ...
+    const [enteredPassword, setEneteredPassword] = useState('');
 
     const [selectedSortMenus, setSelectedsortMenus] = useState(
         new Map(Object.entries(sortDropdownMenuDefault)),
@@ -132,6 +137,11 @@ const TableSection = ({ tableType }) => {
         [getDataListByTableType],
     );
 
+    const onClikcSubmitPassword = useCallback(() => {
+        // 서버로 무엇인가를 보내기~
+        checkPassword(enteredPassword);
+    }, [enteredPassword]);
+
     // ? data list에서 type에 따라 data를 다르게 보여주기 위해서
     useEffect(() => {
         getBoardList().then((res) => {
@@ -143,27 +153,16 @@ const TableSection = ({ tableType }) => {
         <>
             <div id={styles.boardTable}>
                 {tableType === 'growth' ? (
-                    <div className={styles.title}>My Growth</div>
+                    <div className={styles.title}>
+                        <span className={styles.titleWords}>My Growth</span>
+                    </div>
                 ) : (
-                    <div className={styles.title}>About Me</div>
+                    <div className={styles.title}>
+                        <span className={styles.titleWords}>About Me</span>
+                    </div>
                 )}
-                {/* <div className={styles.description}>나는 개발자로서 어떻게 성장하고 있는거니</div> */}
-                {/* <div className={styles.types}>
-                    {selectTypes.map((e, i) => {
-                        return (
-                            <div key={`${e}-${i}`} className="" onClick={() => {
-
-                            }}>
-                                <span>{e}</span>
-                            </div>
-                        );
-                    })}
-                </div> */}
                 <div className={styles.graphHandler}>
                     <div className={styles.class}>
-                        {/* <div className={styles.key}>
-                            <span>분류</span>
-                        </div> */}
                         <div className={styles.values}>
                             {tableType === 'growth' &&
                                 Object.keys(growthClassTypes).map((_key, _i) => (
@@ -251,7 +250,6 @@ const TableSection = ({ tableType }) => {
                                     <tr key={`grow-info-${growthInfo.id}`}>
                                         <td className={styles.close}>
                                             <button
-                                                // className={styles.button}
                                                 onClick={async () => {
                                                     await deleteBoardById(growthInfo.id);
                                                     const newData = await getBoardList();
@@ -456,6 +454,27 @@ const TableSection = ({ tableType }) => {
                             );
                         })}
                     </div>
+                </CommonModal>
+            )}
+            {openEnterPasswordModal && (
+                <CommonModal
+                    onClose={() => {
+                        setOpenEnterPasswordModal(false);
+                    }}
+                >
+                    <p>비밀번호를 입력해주세요</p>
+                    <input
+                        type="password"
+                        value={enteredPassword}
+                        onChange={(e) => setEneteredPassword(e.target.value)}
+                    ></input>
+                    <button
+                        onClick={() => {
+                            onClikcSubmitPassword();
+                        }}
+                    >
+                        제출
+                    </button>
                 </CommonModal>
             )}
         </>

@@ -42,10 +42,27 @@ $content_font_size: 15px;
         #boardTable {
             margin-top: 15px;
             .title {
-                font-family: $eng_font_basic;
-                font-size: $title_font_size;
-                font-weight: 600;
-                color: $kworld-palette-common-black;
+                @include set-display-spread;
+                #editButton {
+                    margin-top: 20px;
+                    span {
+                        font-size: 14px;
+                        background-color: $kworld-palette-primary-100;
+                        border: none;
+                        border-radius: 3px;
+                        padding: 5px;
+                        &:hover {
+                            cursor: pointer;
+                            background-color: $kworld-palette-primary-200;
+                        }
+                    }
+                }
+                .titleWords {
+                    font-family: $eng_font_basic;
+                    font-size: $title_font_size;
+                    font-weight: 600;
+                    color: $kworld-palette-common-black;
+                }
             }
             .graphHandler {
                 margin-top: 8px;
