@@ -2,7 +2,7 @@
 
 ![image](https://github.com/keinn51/make-my-blog/assets/79993356/76008a29-699d-4ea7-b6dd-b4a051c77c7e)
 
-http://kyungsle.kro.kr:5001/
+https://kyungsle.kro.kr:5001/
 
 ### 소개글
 
@@ -17,8 +17,6 @@ NextJS를 사용했으며, 노션과 비슷한 스타일로 작성 가능합니�
 - 이미지 업로드하기
 
 홈서버를 사용하면 port를 제거하지 못한다는 사실을 듣고, 배포는 서버를 구매하여 진행하는 것이 옳구나 생각이 들었습니다.
-
-개인 블로그는 아마.. AWS를 사용해서 해보지 않을까 합니다.
 
 ### 사용 방법
 
