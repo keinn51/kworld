@@ -10,11 +10,6 @@ export const boardApiInstance = axios.create({
     // maxRedirects: 0,
 });
 
-export const certApiInstance = axios.create({
-    baseURL: `${process.env.NEXT_PUBLIC_API_HOST}`,
-    headers: {},
-});
-
 export const ImageApiInstance = axios.create({
     baseURL: `${process.env.NEXT_PUBLIC_FILE_SERVER_HOST}`,
     headers: {},

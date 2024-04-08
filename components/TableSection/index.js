@@ -19,7 +19,6 @@ import {
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { getYearMonthDate } from '@/data/functions';
 import { useRouter } from 'next/router';
-import { checkPassword } from '@/data/certApi';
 
 const TableSection = ({ tableType }) => {
     const tableRouter = useRouter();
@@ -28,9 +27,7 @@ const TableSection = ({ tableType }) => {
     const [clickedItemInfo, setClickedItemInfo] = useState(null);
     const [openAddSortMenuModal, setOpenAddSortMenuModal] = useState(false);
     const [openAddFilterMenuModal, setOpenAddFilterMenuModal] = useState(false);
-    const [openEnterPasswordModal, setOpenEnterPasswordModal] = useState(false);
     const [classifyType, setClassifyType] = useState('all'); //all, store, ...
-    const [enteredPassword, setEneteredPassword] = useState('');
 
     const [selectedSortMenus, setSelectedsortMenus] = useState(
         new Map(Object.entries(sortDropdownMenuDefault)),
@@ -136,11 +133,6 @@ const TableSection = ({ tableType }) => {
         },
         [getDataListByTableType],
     );
-
-    const onClikcSubmitPassword = useCallback(() => {
-        // 서버로 무엇인가를 보내기~
-        checkPassword(enteredPassword);
-    }, [enteredPassword]);
 
     // ? data list에서 type에 따라 data를 다르게 보여주기 위해서
     useEffect(() => {
@@ -454,27 +446,6 @@ const TableSection = ({ tableType }) => {
                             );
                         })}
                     </div>
-                </CommonModal>
-            )}
-            {openEnterPasswordModal && (
-                <CommonModal
-                    onClose={() => {
-                        setOpenEnterPasswordModal(false);
-                    }}
-                >
-                    <p>비밀번호를 입력해주세요</p>
-                    <input
-                        type="password"
-                        value={enteredPassword}
-                        onChange={(e) => setEneteredPassword(e.target.value)}
-                    ></input>
-                    <button
-                        onClick={() => {
-                            onClikcSubmitPassword();
-                        }}
-                    >
-                        제출
-                    </button>
                 </CommonModal>
             )}
         </>
