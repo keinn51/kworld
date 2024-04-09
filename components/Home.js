@@ -1,6 +1,6 @@
 import styles from '@/styles/home/home.module.scss';
 import TableSection from '@/components/TableSection';
-import { RecoilRoot, atom, selector, useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import SlideAlert from '@/components/Utils/Common/SlideAlert';
 import { showSlideAlert } from '@/data/atoms';
 import Image from 'next/image';
@@ -55,7 +55,6 @@ const Home = () => {
             </div>
             <div id={styles.body}>
                 <TableSection tableType="growth" />
-                <TableSection tableType="aboutme" />
             </div>
             <SlideAlert
                 open={isAlertOpen}
