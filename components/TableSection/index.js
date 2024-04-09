@@ -19,9 +19,7 @@ const TableSection = ({ tableType }) => {
                 newData = newData.filter((_data) => _data.type === classifyType);
             }
 
-            return (
-                newData?.filter((_data) => Object.keys(growthClassTypes).includes(_data.type)) || []
-            );
+            return newData || [];
         },
         [classifyType],
     );
@@ -36,6 +34,7 @@ const TableSection = ({ tableType }) => {
     return (
         <>
             <div id={styles.boardTable}>
+                {/* graph class bar */}
                 <div className={styles.graphHandler}>
                     <div className={styles.class}>
                         <div className={styles.values}>
@@ -54,6 +53,7 @@ const TableSection = ({ tableType }) => {
                         </div>
                     </div>
                 </div>
+                {/* graph contents */}
                 <div className={styles.graphBox}>
                     <table className={styles.table}>
                         <thead>
