@@ -1,5 +1,4 @@
 import styles from '@/styles/components/LivePage.module.scss';
-import { useMemo } from 'react';
 
 const LivePage = ({ title, content }) => {
     return (

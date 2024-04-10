@@ -5,12 +5,6 @@ import dynamic from 'next/dynamic';
 import { useCallback, useMemo } from 'react';
 import PropertyBox from './PropertyBox';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
-import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
-import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
-import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
-import SaveIcon from '@mui/icons-material/Save';
 import { useSetRecoilState } from 'recoil';
 import { showSlideAlert } from '@/data/atoms';
 
@@ -43,7 +37,7 @@ export default function EditPannel(props) {
             }}
         >
             <div
-                id={styles.til}
+                id={styles.editBoard}
                 onClick={(e) => {
                     e.stopPropagation();
                 }}
@@ -62,41 +56,21 @@ export default function EditPannel(props) {
                         </div>
                         <div id={styles.utilButtons}>
                             <button
+                                className={styles.wordButton}
                                 onClick={() => {
                                     setIsAlertOpen(true);
                                     updateBoardById(_target.id, _target);
                                 }}
                             >
-                                <SaveIcon />
+                                <span>저장하기</span>
                             </button>
                             <button
-                                onClick={() => {
-                                    onchangeData('isLocked', !_target['isLocked']);
-                                }}
-                            >
-                                {_target.isLocked === true ? (
-                                    <LockOutlinedIcon />
-                                ) : (
-                                    <LockOpenOutlinedIcon />
-                                )}
-                            </button>
-                            <button
-                                onClick={() => {
-                                    onchangeData('isBookMarked', !_target['isBookMarked']);
-                                }}
-                            >
-                                {_target.isBookMarked === true ? (
-                                    <BookmarkAddedOutlinedIcon />
-                                ) : (
-                                    <BookmarkAddOutlinedIcon />
-                                )}
-                            </button>
-                            <button
+                                className={styles.wordButton}
                                 onClick={() => {
                                     window.open(`/page/${_target.id}`, '_blank');
                                 }}
                             >
-                                <PreviewOutlinedIcon />
+                                <span>페이지 보기</span>
                             </button>
                         </div>
                     </div>

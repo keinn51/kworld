@@ -1,7 +1,7 @@
 @import 'styles/commons/mixins';
 @import 'styles/commons/variables';
 
-#til {
+#editBoard {
     background-color: white;
     box-shadow: 0px 0px 10px 1px #555555;
     position: fixed;
@@ -37,6 +37,10 @@
             }
             #utilButtons {
                 display: flex;
+                gap: 5px;
+                .wordButton {
+                    background-color: $kworld-palette-primaryDark-50;
+                }
             }
         }
         #infos {

@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import EditableSpan from '@/components/Utils/EditableSpan';
 import styles from '@/styles/components/EditPannel.module.scss';
-import { growthClassTypes, growthSelectTypes, propertyDatas, statusSelectTyeps } from '@/data/data';
+import { growthSelectTypes, propertyDatas, statusSelectTyeps } from '@/data/data';
 import { getYearMonthDate } from '@/data/functions';
 import CommonSelect from '../Utils/Common/Select';
 
