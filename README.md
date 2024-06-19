@@ -2,8 +2,11 @@
 
 ![image](https://github.com/keinn51/make-my-blog/assets/79993356/76008a29-699d-4ea7-b6dd-b4a051c77c7e)
 
-시연영상
-https://youtu.be/PC7rBfvsbHY
+시연영상 : https://youtu.be/PC7rBfvsbHY
+
+서버코드 : https://github.com/toy-project-kyungsle/q-board-client
+
+이미지 서버 코드 : https://github.com/toy-project-kyungsle/my-blog-image-server
 
 ### 소개글
 
